@@ -14,6 +14,57 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+        prueba2();
+    }
+
+    public static void prueba2() {
+        SistemaOperativo so = new SistemaOperativo();
+
+        so.crearRecurso("impresora");
+        Recurso impresora = so.getRecursos().get(0);
+        so.crearInstruccionSincronica("imprimiendo...", impresora);
+        Instruccion insImprimir = so.getInstrucciones().get(0);
+
+        so.crearInstruccionAsincronica("hola hola");
+        Instruccion insHola = so.getInstrucciones().get(1);
+
+        so.crearRecurso("secador");
+        Recurso secador = so.getRecursos().get(1);
+        so.crearInstruccionSincronica("secar pelo...", secador);
+        Instruccion insSecador = so.getInstrucciones().get(2);
+
+        ArrayList<Instruccion> arrIns1 = new ArrayList<>();
+        arrIns1.add(insImprimir);
+        arrIns1.add(insHola);
+
+        ArrayList<Instruccion> arrIns2 = new ArrayList<>();
+        arrIns2.add(insSecador);
+        arrIns2.add(insHola);
+
+        so.crearProceso("procVale", arrIns1);
+        so.crearProceso("procClari", arrIns2);
+        Proceso procV = so.getProcesos().get(0);
+        Proceso procC = so.getProcesos().get(1);
+
+        ArrayList<Proceso> procsV = new ArrayList<>();
+        ArrayList<Proceso> procsC = new ArrayList<>();
+        procsV.add(procV);
+        procsC.add(procC);
+
+        so.crearUsuario("vale");
+        so.crearUsuario("clari");
+        Usuario vale = so.getUsuarios().get(0);
+        Usuario clari = so.getUsuarios().get(1);
+
+        so.modificarPermisos(clari, impresora);
+        so.modificarPermisos(vale, impresora);
+
+        so.correrProcesos(vale, procsV);
+        so.correrProcesos(clari, procsC);
+
+    }
+
+    public static void prueba1() {
         SistemaOperativo so = new SistemaOperativo();
 
         so.crearRecurso("impresora");
@@ -73,7 +124,6 @@ public class Main {
         procesos.add(p3);
         procesos.add(p4);
         so.correrProcesos(so.getUsuarios().get(0), procesos);
-
     }
 
 }
