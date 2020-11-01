@@ -5,6 +5,7 @@
  */
 package version3;
 
+import interfaz.Menu;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        prueba2();
+        SistemaOperativo sistema = new SistemaOperativo();
+        Menu menu = new Menu(sistema);
+        menu.setVisible(true);
     }
 
     public static void prueba2() {
