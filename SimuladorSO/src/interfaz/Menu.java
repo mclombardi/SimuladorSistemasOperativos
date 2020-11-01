@@ -5,6 +5,8 @@
  */
 package interfaz;
 
+import version3.SistemaOperativo;
+
 /**
  *
  * @author Usuario
@@ -14,8 +16,9 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    public Menu() {
+    public Menu(SistemaOperativo sist) {
         initComponents();
+        this.so = sist;
     }
 
     /**
@@ -31,7 +34,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnEjecturaProcesos = new javax.swing.JButton();
         btnCrearProcesos = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCrearUsuario = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,12 +53,27 @@ public class Menu extends javax.swing.JFrame {
 
         btnCrearProcesos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnCrearProcesos.setText("Crear Procesos");
+        btnCrearProcesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearProcesosActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        jButton3.setText("Crear Usuario");
+        btnCrearUsuario.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnCrearUsuario.setText("Crear Usuario");
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnSalir.setText("X");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,7 +86,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(69, 69, 69)
                 .addComponent(btnCrearProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -86,7 +104,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEjecturaProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCrearProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
 
@@ -109,50 +127,39 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEjecturaProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecturaProcesosActionPerformed
-        // TODO add your handling code here:
+        CorrerProcesos cp = new CorrerProcesos(this.so);
+        cp.setVisible(true);
+        dispose();
+        
     }//GEN-LAST:event_btnEjecturaProcesosActionPerformed
+
+    private void btnCrearProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProcesosActionPerformed
+        CrearProceso cp = new CrearProceso(this.so);
+        cp.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnCrearProcesosActionPerformed
+
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        // falta el form
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Menu().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearProcesos;
+    private javax.swing.JButton btnCrearUsuario;
     private javax.swing.JButton btnEjecturaProcesos;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    SistemaOperativo so;
+
 }

@@ -5,6 +5,8 @@
  */
 package interfaz;
 
+import version3.SistemaOperativo;
+
 /**
  *
  * @author Usuario
@@ -14,8 +16,9 @@ public class CrearProceso extends javax.swing.JFrame {
     /**
      * Creates new form CrearProcesos
      */
-    public CrearProceso() {
+    public CrearProceso(SistemaOperativo sist) {
         initComponents();
+        this.so = sist;
     }
 
     /**
@@ -71,9 +74,19 @@ public class CrearProceso extends javax.swing.JFrame {
 
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnVolver.setText("<-- volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnSalir.setText("X");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Todas las Instrucciones");
@@ -205,48 +218,29 @@ public class CrearProceso extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnAgregarInstruccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarInstruccionActionPerformed
-        // TODO add your handling code here:
+        CrearInstruccion ci = new CrearInstruccion(this.so);
+        ci.setVisible(true);
+        dispose();
+        
     }//GEN-LAST:event_btnAgregarInstruccionActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        Menu m = new Menu(this.so);
+        m.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CrearProceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CrearProceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CrearProceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CrearProceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CrearProceso().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -267,4 +261,6 @@ public class CrearProceso extends javax.swing.JFrame {
     private javax.swing.JList<String> listaTodasIns;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    SistemaOperativo so;
 }
