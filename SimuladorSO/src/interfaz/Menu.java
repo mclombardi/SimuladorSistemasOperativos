@@ -128,6 +128,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnEjecturaProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecturaProcesosActionPerformed
         CorrerProcesos cp = new CorrerProcesos(this.so);
+        this.so.addObserver(cp);
         cp.setVisible(true);
         dispose();
         
@@ -140,7 +141,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearProcesosActionPerformed
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
-        // falta el form
+        CrearUsuario cu = new CrearUsuario(this.so);
+        cu.setVisible(true);
+        dispose();
+
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

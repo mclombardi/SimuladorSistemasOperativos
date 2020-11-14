@@ -18,6 +18,7 @@ public class Main {
         SistemaOperativo sistema = new SistemaOperativo();
         Menu menu = new Menu(sistema);
         menu.setVisible(true);
+        //prueba2();
     }
 
     public static void prueba2() {
@@ -59,7 +60,7 @@ public class Main {
         Usuario vale = so.getUsuarios().get(0);
         Usuario clari = so.getUsuarios().get(1);
 
-        so.modificarPermisos(clari, impresora);
+        so.modificarPermisos(clari, secador);
         so.modificarPermisos(vale, impresora);
 
         so.correrProcesos(vale, procsV);

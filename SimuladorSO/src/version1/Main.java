@@ -18,7 +18,7 @@ public class Main {
             try {
                 int randomNbr = ThreadLocalRandom.current().nextInt(0, 50 + 1);
 
-                for (int j=0; j<10; ++j) {
+                for (int j=0; j<30; ++j) {
                     //System.out.println("Solicitando el R1. Por <" + c +">");
                     resource_1.acquire();
                     try {
@@ -38,16 +38,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Proceso th1 = new Proceso("Paseo el perro - Alice");
-        th1.start();
+        
 
-        Proceso th2 = new Proceso("Paseo el perro - BOB");
+        Proceso th2 = new Proceso("Paseo el perro - Bob");
+        th1.start();
         th2.start();
+        
+        Proceso th3 = new Proceso("Paseo el perro - CHARLIE");
 
 //        Proceso th3 = new Proceso('V');
-//        th3.start();
+        th3.start();
 
-        th1.join();
-        th2.join();
+       // th1.join();
+       // th2.join();
 //        th3.join();
 
         System.out.println('\n');

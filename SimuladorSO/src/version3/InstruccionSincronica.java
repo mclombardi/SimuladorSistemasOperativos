@@ -20,6 +20,7 @@ public class InstruccionSincronica extends Instruccion {
         super.aImprimir = aImprimir;
         this.recurso = recurso;
         super.CPU = CPU;
+        super.log = new ArrayList<>();
     }
 
     public Recurso getRecurso() {
@@ -35,7 +36,7 @@ public class InstruccionSincronica extends Instruccion {
                 this.CPU.adquirir();
                 this.recurso.adquirir();
                 try {
-                    System.out.println(this.aImprimir);
+                    super.log.add(this.aImprimir);
                     Thread.sleep(randomNumero);
                 } finally {
                     this.recurso.liberar();

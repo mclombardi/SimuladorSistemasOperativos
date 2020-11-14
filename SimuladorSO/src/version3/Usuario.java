@@ -21,7 +21,5 @@ public class Usuario {
     public int getUid() {
         return uid;
     }
-    
-    
-    
+   
 }

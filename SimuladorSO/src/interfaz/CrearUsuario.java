@@ -5,6 +5,8 @@
  */
 package interfaz;
 
+import version3.SistemaOperativo;
+
 /**
  *
  * @author valen
@@ -14,8 +16,9 @@ public class CrearUsuario extends javax.swing.JFrame {
     /**
      * Creates new form CrearUsuario
      */
-    public CrearUsuario() {
+    public CrearUsuario(SistemaOperativo sist) {
         initComponents();
+        this.so = sist;
     }
 
     /**
@@ -30,10 +33,10 @@ public class CrearUsuario extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        btnAgregarInstruccion = new javax.swing.JButton();
+        listaPermisos = new javax.swing.JList<>();
+        btnCrearRecurso = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -48,109 +51,102 @@ public class CrearUsuario extends javax.swing.JFrame {
 
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnVolver.setText("<-- volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnVolver);
-        btnVolver.setBounds(6, 13, 94, 30);
+        btnVolver.setBounds(6, 13, 100, 30);
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnSalir.setText("X");
-        getContentPane().add(btnSalir);
-        btnSalir.setBounds(440, 9, 75, 38);
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(191, 53, 180, 26);
+        getContentPane().add(btnSalir);
+        btnSalir.setBounds(500, 10, 39, 38);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtNombre);
+        txtNombre.setBounds(200, 60, 180, 19);
+
+        listaPermisos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listaPermisos);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(129, 120, 245, 200);
+        jScrollPane1.setBounds(110, 120, 290, 200);
 
-        btnAgregarInstruccion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnAgregarInstruccion.setText("Crear Recurso");
-        btnAgregarInstruccion.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearRecurso.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnCrearRecurso.setText("Crear Recurso");
+        btnCrearRecurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarInstruccionActionPerformed(evt);
+                btnCrearRecursoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregarInstruccion);
-        btnAgregarInstruccion.setBounds(411, 292, 113, 37);
+        getContentPane().add(btnCrearRecurso);
+        btnCrearRecurso.setBounds(410, 280, 110, 37);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Permisos a recursos:");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(80, 100, 110, 13);
+        jLabel1.setBounds(100, 100, 120, 13);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Ingrese Nombre: ");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(80, 60, 88, 13);
+        jLabel3.setBounds(100, 60, 100, 13);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNombreActionPerformed
 
-    private void btnAgregarInstruccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarInstruccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarInstruccionActionPerformed
+    private void btnCrearRecursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRecursoActionPerformed
+        CrearRecurso cr = new CrearRecurso(this.so);
+        cr.setVisible(true);
+        dispose();
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CrearUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CrearUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CrearUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CrearUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    }//GEN-LAST:event_btnCrearRecursoActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CrearUsuario().setVisible(true);
-            }
-        });
-    }
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        Menu m = new Menu(this.so);
+        m.setVisible(true);
+        dispose();
+
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarInstruccion;
+    private javax.swing.JButton btnCrearRecurso;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JList<String> listaPermisos;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    SistemaOperativo so;
 }

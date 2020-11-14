@@ -6,12 +6,13 @@
 package version3;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  *
  * @author Usuario
  */
-public class SistemaOperativo {
+public class SistemaOperativo extends Observable{
 
     private boolean[][] permisos; // [usuarios][recursos]
     private ArrayList<Usuario> usuarios;
@@ -122,18 +123,24 @@ public class SistemaOperativo {
     }
 
     public void correrProcesos(Usuario usuario, ArrayList<Proceso> procesosACorrer) {
-        try {
+       // try {
             if (permisosValidos(usuario, procesosACorrer)) {
                 for (Proceso proceso : procesosACorrer) {
                     proceso.start();
                 }
-                for (Proceso proceso : procesosACorrer) {
+                /*for (Proceso proceso : procesosACorrer) {
                     proceso.join();
-                }
+                }*/
             }
-        } catch (InterruptedException e) {
+        /*} catch (InterruptedException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
+        
+        /*a medida que va modificando el atributo publico log y pone
+                    setChanged();
+            notifyObservers();*/
+        
+        
     }
 
     public boolean permisosValidos(Usuario usuario, ArrayList<Proceso> procesosACorrer) {
@@ -145,6 +152,10 @@ public class SistemaOperativo {
             }
         }
         return true;
+    }
+    
+    public Usuario buscarUsuario(int indice){
+        return this.usuarios.get(indice);
     }
 
 }

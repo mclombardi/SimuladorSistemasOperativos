@@ -16,6 +16,7 @@ public class Proceso extends Thread{
     private ArrayList<Instruccion> instrucciones;
     private ArrayList<Recurso> recursos;
     private String estado;
+    private ArrayList<String> log;
 
     public Proceso(int pid, String nombre, ArrayList<Instruccion> instrucciones, ArrayList<Recurso> recursos) {
         this.pid = pid;
@@ -23,6 +24,7 @@ public class Proceso extends Thread{
         this.instrucciones = instrucciones;
         this.recursos = recursos;
         this.estado = "listo"; 
+        this.log = new ArrayList<>();
         /*los estados pueden ser: 
           - sinCorrer --> aun no fueron seleccionados para correr concurrentemente
           - listo --> listo para ser ejecutado
@@ -44,7 +46,7 @@ public class Proceso extends Thread{
     
     public void run(){
       for(Instruccion ins : this.instrucciones){       
-          ins.run();
+          ins.run();          
       }
     }
     

@@ -5,13 +5,18 @@
  */
 package interfaz;
 
-import version3.SistemaOperativo;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultListModel;
+import version3.*;
 
 /**
  *
  * @author Usuario
  */
-public class CorrerProcesos extends javax.swing.JFrame {
+public class CorrerProcesos extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form SeleccionarUsuario
@@ -19,6 +24,34 @@ public class CorrerProcesos extends javax.swing.JFrame {
     public CorrerProcesos(SistemaOperativo sist) {
         initComponents();
         this.so = sist;
+        cargarLista();
+        cargarComboBox();
+    }
+
+    public void cargarComboBox() {
+
+        comboUsuarios.removeAllItems();
+        Iterator<Usuario> it = this.so.getUsuarios().iterator();
+        while (it.hasNext()) {
+            comboUsuarios.addItem(it.next().toString());
+        }
+    }
+
+    public void cargarLista() {
+        DefaultListModel listModel1 = new DefaultListModel<String>();
+        Iterator<Proceso> it = this.so.getProcesos().iterator();
+        while (it.hasNext()) {
+            listModel1.addElement(it.next()); // toString automatico?
+        }
+        listaProcesos.setModel(listModel1);
+    }
+
+    public void actualizarHistorial() {
+        /*ArrayList<String> hist = this.so.log; // hay que agregar estos atributos a Proceso
+        int indiceLog = this.so.indLog;
+
+        String actual = txtHistorial.getText() + hist.get(indiceLog) + "/n";
+        txtHistorial.setText(actual);*/
     }
 
     /**
@@ -65,6 +98,11 @@ public class CorrerProcesos extends javax.swing.JFrame {
 
         btnCorrer.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnCorrer.setText("Correr Concurrentemente");
+        btnCorrer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCorrerActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel5.setText("Seleccione los procesos a correr");
@@ -129,7 +167,7 @@ public class CorrerProcesos extends javax.swing.JFrame {
                     .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -142,7 +180,7 @@ public class CorrerProcesos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCorrer))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -153,9 +191,7 @@ public class CorrerProcesos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -170,6 +206,25 @@ public class CorrerProcesos extends javax.swing.JFrame {
         m.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnCorrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrerActionPerformed
+        
+        //antes que nada tendría que notificarle a SO que que se agrego algo mas para que pare el while y vuelva a rrancar
+        
+        int[] procs = listaProcesos.getSelectedIndices();
+        ArrayList<Proceso> procesosACorrer = new ArrayList<>();
+        for (int i = 0; i < procs.length; i++) {
+            procesosACorrer.add(this.so.getProcesos().get(i));
+        }
+
+        String usuarioStr = (String) comboUsuarios.getSelectedItem();
+        String[] usuarioStrArray = usuarioStr.split(" ");
+        Usuario usuario = this.so.buscarUsuario(Integer.parseInt(usuarioStrArray[0]));
+
+        this.so.correrProcesos(usuario, procesosACorrer);
+        actualizarHistorial();
+
+    }//GEN-LAST:event_btnCorrerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,4 +247,9 @@ public class CorrerProcesos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     SistemaOperativo so;
+
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        actualizarHistorial();
+    }
 }

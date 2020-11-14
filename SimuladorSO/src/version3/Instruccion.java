@@ -5,6 +5,7 @@
  */
 package version3;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -16,6 +17,7 @@ public abstract class Instruccion {
     protected String aImprimir;
     protected boolean sincronica;
     protected Recurso CPU;
+    protected ArrayList<String> log;
 
     public void run() {
         int randomNumero = ThreadLocalRandom.current().nextInt(0, 51);
@@ -23,7 +25,8 @@ public abstract class Instruccion {
             for (int i = 0; i < 50; i++) {
                 this.CPU.adquirir();
                 try {
-                    System.out.println(this.aImprimir);
+                    this.log.add(this.aImprimir); // en lugar de sout
+
                     Thread.sleep(randomNumero);
                 } finally {
                     this.CPU.liberar();
@@ -32,6 +35,5 @@ public abstract class Instruccion {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-
     }
 }
