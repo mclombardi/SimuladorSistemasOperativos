@@ -23,10 +23,10 @@ public class InstruccionSincronica extends Instruccion {
     }
 
     public int run(int iterDisponibles) {
-        if (!this.recurso.estaBloqueado() || this.tengoElRecurso) {
+        if (this.tengoElRecurso || this.recurso.estaBloqueado() == 0) {
             if (!this.tengoElRecurso) {
-//                this.recurso.adquirir();
-                this.tengoElRecurso = true;
+                    this.recurso.adquirir();
+                    this.tengoElRecurso = true;
             }
             int progresoAux = 0;
             for (int i = progreso; i < 5; i++) {
@@ -37,8 +37,8 @@ public class InstruccionSincronica extends Instruccion {
                 }
             }
             if (progreso == 5) {
-//                this.recurso.liberar();
-                this.tengoElRecurso = false;
+                this.recurso.liberar();
+                this.tengoElRecurso = true;
             }
             return iterDisponibles - progresoAux;
         }

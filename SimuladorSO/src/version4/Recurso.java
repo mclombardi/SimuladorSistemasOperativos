@@ -1,17 +1,14 @@
 package version4;
 
-import java.util.concurrent.Semaphore;
-
 public class Recurso {
     private int rid;
-    private Semaphore semaforo;
     private String nombre;
-    private boolean bloqueado;
-    
+    private int bloqueado;
+
     public Recurso(int rid, int capacidad, String nombre) {
         this.rid = rid;
-        this.semaforo = new Semaphore(capacidad);
         this.nombre = nombre;
+        this.bloqueado = 0;
     }
 
     public int getRid() {
@@ -22,22 +19,23 @@ public class Recurso {
         return nombre;
     }
     
-    public boolean estaBloqueado() {
-        return this.bloqueado;
+    public void setNombre(String e) {
+        this.nombre = e;
     }
 
-    public void adquirir() {
-        try {
-            this.semaforo.acquire();
-            this.bloqueado = true;
-        } catch (InterruptedException ex) {
-            System.out.println(ex.getMessage()); 
-        }
-        
+    public int estaBloqueado() {
+        return this.bloqueado;
+    }
+    
+    public void setBloqueado(int value) {
+        this.bloqueado = value;
+    }
+
+    public void adquirir(){
+        this.bloqueado = 1;
     }
 
     public void liberar() {
-        this.semaforo.release();
-        this.bloqueado = false;
-    } 
+        this.bloqueado = 0;
+    }
 }

@@ -5,7 +5,46 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        prueba1();
+        prueba2();
+    }
+
+    public static void prueba2() {
+        SistemaOperativo so = new SistemaOperativo();
+        so.crearRecurso("sec");
+        Recurso secador = so.getRecursos().get(0);
+        so.crearInstruccionSincronica("alice secando el pelo...", secador);
+        so.crearInstruccionAsincronica("alice hace cosas");
+
+        Instruccion a1 = so.getInstrucciones().get(0);
+        Instruccion a2 = so.getInstrucciones().get(1);
+
+        ArrayList<Instruccion> arr1 = new ArrayList<>();
+        arr1.add(a1);
+        arr1.add(a2);
+
+        so.crearInstruccionSincronica("charlie secando el pelo...", secador);
+        Instruccion c1 = so.getInstrucciones().get(2);
+        ArrayList<Instruccion> arr3 = new ArrayList<>();
+        arr3.add(c1);
+
+        so.crearProceso("Alice", arr1);
+        so.crearProceso("Charlie", arr3);
+
+        ArrayList<Proceso> procesosAEjecutar = new ArrayList<>();
+        Proceso alice = so.getProcesos().get(0);
+        Proceso charlie = so.getProcesos().get(1);
+
+        procesosAEjecutar.add(alice);
+        procesosAEjecutar.add(charlie);
+
+        so.crearUsuario("vale");
+
+        Usuario vale = so.getUsuarios().get(0);
+        so.modificarPermisosRecursos(vale, secador);
+        so.modificarPermisosProgramas(vale, alice);
+        so.modificarPermisosProgramas(vale, charlie);
+        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        so.correrProcesos(vale);
     }
 
     public static void prueba1() {

@@ -38,13 +38,16 @@ public class Proceso {
     public String getEstado() {
         return estado;
     }
-
+        
+    public boolean terminado() {
+        return this.progreso == this.totalIns;
+    }
     
     public void setEstado(String estado) {
         this.estado = estado;
     }
     
-    public boolean run(boolean[][] permisosRecursos, Usuario usuario) {
+    public void run(boolean[][] permisosRecursos, Usuario usuario) {
         int iterDisponibles = QUANTUM;
         ArrayList<Instruccion> lista = this.getInstrucciones();
         
@@ -53,23 +56,37 @@ public class Proceso {
             if (insActual.isSincronica()) {
                 InstruccionSincronica insSinc = (InstruccionSincronica) insActual;
                 if(!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
-                    return true;
+                    setEstado("no permite");
+                    return;
                 }
             }
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);
             progreso = progreso + (iterAux - iterDisponibles);
             
+            if (iterDisponibles == iterAux) {
+                setEstado("bloqueado");
+                return;
+            }
+            
             if (progreso % 5 == 0) {
                 lista.remove(0);
+                if (insActual.isSincronica()) {
+                    setEstado("libera recurso");
+                    if(this.progreso >= totalIns) {
+                        setEstado("libera recurso - termina");
+                    }
+                }
+                return;
             }
         }
         
         if(this.progreso >= totalIns) {
-            return true;
+            setEstado("terminado");
+            return;
         }
         
-        return false; // devuelve false si no termino
+        setEstado("esperando CPU");
     }
     
     public Proceso copiar() {

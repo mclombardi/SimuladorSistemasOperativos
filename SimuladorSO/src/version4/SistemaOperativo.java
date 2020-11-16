@@ -2,6 +2,7 @@ package version4;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SistemaOperativo {
     private boolean[][] permisosRecursos; // [usuarios][recursos]
@@ -10,7 +11,8 @@ public class SistemaOperativo {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Recurso> recursos;
     private ArrayList<Proceso> procesos; // necesito id?
-    private ArrayList<Proceso> procesosCorriendo;
+    private CopyOnWriteArrayList<Proceso> procesosListos;
+    private CopyOnWriteArrayList<Proceso> procesosBloqueados;
     private ArrayList<Instruccion> instrucciones; // necesito id?
     private int indiceUsuarios;
     private int indiceRecursos;
@@ -26,7 +28,8 @@ public class SistemaOperativo {
         this.recursos = new ArrayList<>();
         this.procesos = new ArrayList<>();
         this.instrucciones = new ArrayList<>();
-        this.procesosCorriendo = new ArrayList<>();
+        this.procesosListos = new CopyOnWriteArrayList<>();
+        this.procesosBloqueados = new CopyOnWriteArrayList<>();
     }
     
     public boolean[][] getPermisosRecursos() {
@@ -82,7 +85,6 @@ public class SistemaOperativo {
             }
         }
         return recursos;
-        
     }
 
     public void crearRecurso(String nombre) {
@@ -131,19 +133,52 @@ public class SistemaOperativo {
     public void validarAutorizacionEjecucion(Usuario usuario, ArrayList<Proceso> procesosAEjecutar) {
         for(Proceso proceso : procesosAEjecutar) {
             if (permisoAPrograma(usuario, proceso)) {
-                procesosCorriendo.add(proceso.copiar());
+                procesosListos.add(proceso.copiar());
             }
         }
     }
     
     public void correrProcesos(Usuario usuario) {
         Random rand = new Random();
-        while(procesosCorriendo.size() > 0) {
-            int randomIndex = rand.nextInt(procesosCorriendo.size());     
-            Proceso procActual = procesosCorriendo.get(randomIndex);
-            boolean matarProc = procActual.run(permisosRecursos, usuario);
+        while(procesosListos.size() > 0) {
+            int randomIndex = rand.nextInt(procesosListos.size());     
+            Proceso procActual = procesosListos.get(randomIndex);
+            procActual.run(permisosRecursos, usuario);
             
-            if (matarProc) procesosCorriendo.remove(randomIndex);            
+            switch  (procActual.getEstado()) {
+                case "bloqueado":
+                     procesosBloqueados.add(procActual);
+                     procesosListos.remove(randomIndex);
+                     break;
+                case "terminado":
+                    procesosListos.remove(randomIndex);
+                    break;
+                case "libera recurso":
+                    desbloquearProcesos();
+                    break;
+                case "libera recurso - termina":
+                    desbloquearProcesos();
+                    procesosListos.remove(randomIndex);
+                    break;
+                case "no permite": 
+                    procesosListos.remove(randomIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    public void desbloquearProcesos() {
+        for(Proceso proceso : this.procesosBloqueados) {
+            boolean recursosLibres = true;
+            for (Recurso recurso : proceso.getRecursos()) {
+                recursosLibres = recursosLibres && (recurso.estaBloqueado() == 0);
+            }
+            if (recursosLibres) { 
+                procesosBloqueados.remove(proceso);
+                procesosListos.add(proceso);
+            }
         }
     }
     
