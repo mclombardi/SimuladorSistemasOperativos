@@ -51,7 +51,8 @@ public class Proceso {
         int iterDisponibles = QUANTUM;
         ArrayList<Instruccion> lista = this.getInstrucciones();
         
-        while(lista.size() > 0 && this.progreso < totalIns && iterDisponibles > 0) {
+        while(lista.size() > 0 && (this.progreso < totalIns) && iterDisponibles > 0) {
+            // aca esta el problema
             Instruccion insActual = lista.get(0);
             if (insActual.isSincronica()) {
                 InstruccionSincronica insSinc = (InstruccionSincronica) insActual;
@@ -64,7 +65,7 @@ public class Proceso {
             iterDisponibles = insActual.run(iterDisponibles);
             progreso = progreso + (iterAux - iterDisponibles);
             
-            if (iterDisponibles == iterAux) {
+            if (iterDisponibles == iterAux) { 
                 setEstado("bloqueado");
                 return;
             }
@@ -77,7 +78,7 @@ public class Proceso {
                         setEstado("libera recurso - termina");
                     }
                 }
-                return;
+                //return;
             }
         }
         
