@@ -15,4 +15,9 @@ public class Usuario {
     public int getUid() {
         return uid;
     }
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }

@@ -1,6 +1,6 @@
 package version5;
 
-import version4.*;
+import java.util.ArrayList;
 
 public class InstruccionSincronica extends Instruccion {
 
@@ -25,15 +25,20 @@ public class InstruccionSincronica extends Instruccion {
     }
 
     public int run(int iterDisponibles) {
+        super.logUnaEjec = "";
         if (this.tengoElRecurso || this.recurso.estaBloqueado() == 0) {
             if (!this.tengoElRecurso) {
-                    this.recurso.adquirir();
-                    this.tengoElRecurso = true;
+                this.recurso.adquirir();
+                this.tengoElRecurso = true;
             }
             int progresoAux = 0;
             for (int i = progreso; i < 5; i++) {
+
                 if (progresoAux < iterDisponibles) {
                     System.out.println(super.aImprimir);
+
+                    super.logUnaEjec += aImprimir + "\n";
+
                     progresoAux++;
                     progreso++;
                 }
@@ -45,6 +50,11 @@ public class InstruccionSincronica extends Instruccion {
             return iterDisponibles - progresoAux;
         }
         return iterDisponibles;
+    }
+
+    @Override
+    public String toString() {
+        return this.aImprimir + " --- Usa " + this.recurso.getNombre();
     }
 
 }

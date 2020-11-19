@@ -14,6 +14,7 @@ public class Proceso {
     private int totalIns;
     private int particion;
     final static private int QUANTUM = 3;
+    private String logProc;
 
     public Proceso(int pid, String nombre, ArrayList<Instruccion> instrucciones, ArrayList<Recurso> recursos, int particion) {
         this.pid = pid;
@@ -24,6 +25,7 @@ public class Proceso {
         this.progreso = 0;
         this.totalIns = instrucciones.size() * 5;
         this.particion = particion;
+        this.logProc = "";
     }
 
     public int getParticion() {
@@ -54,9 +56,19 @@ public class Proceso {
         this.estado = estado;
     }
 
-    public void run(boolean[][] permisosRecursos, Usuario usuario) {
+    public String getLogProc() {
+        return logProc;
+    }
+
+    public void setProgreso(int progreso) {
+        this.progreso = progreso;
+    }
+
+    public void run(boolean[][] permisosRecursos, Usuario usuario) { // retorna si el usuario tiene permiso de usar los recursos
+        this.logProc = "";
+
         int iterDisponibles = QUANTUM;
-        ArrayList<Instruccion> lista = this.getInstrucciones();
+        ArrayList<Instruccion> lista = (ArrayList<Instruccion>) this.instrucciones.clone(); // es necesario?
 
         while (lista.size() > 0 && (this.progreso < totalIns) && iterDisponibles > 0) {
             Instruccion insActual = lista.get(0);
@@ -69,6 +81,9 @@ public class Proceso {
             }
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);
+
+            this.logProc += insActual.getLogUnaEjec(); // esto no funciona?
+
             progreso = progreso + (iterAux - iterDisponibles);
 
             if (iterDisponibles == iterAux) {
@@ -77,12 +92,16 @@ public class Proceso {
             }
 
             if (progreso % 5 == 0) {
-                lista.remove(0);     
+                lista.remove(0);
+                if (progreso == 5) { // proceso terminado
+                    insActual.setProgreso(0);                  
+                }
             }
         }
 
         if (this.progreso >= totalIns) {
             setEstado("terminado");
+            progreso = 0;
             return;
         }
         setEstado("esperando CPU");
@@ -100,4 +119,8 @@ public class Proceso {
         return permisosRecursos[usuario.getUid()][recurso.getRid()];
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }

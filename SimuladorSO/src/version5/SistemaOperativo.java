@@ -2,6 +2,7 @@ package version5;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SistemaOperativo {
@@ -23,6 +24,8 @@ public class SistemaOperativo {
     private CopyOnWriteArrayList<Proceso> procesosBloqueados;
     private ArrayList<Proceso>[] memoria;
 
+    private String log;
+
     public SistemaOperativo() {
         this.indiceUsuarios = 0; // los indices indican donde voy a agregar el prox usuario/recurso/proceso
         this.indiceRecursos = 0;
@@ -41,6 +44,15 @@ public class SistemaOperativo {
             this.memoria[i] = new ArrayList<>();
 
         }
+        this.log = "";
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
     }
 
     public boolean[][] getPermisosRecursos() {
@@ -82,7 +94,7 @@ public class SistemaOperativo {
         Proceso proceso = new Proceso(indiceProcesos, nombre, instrucciones, recursos, particion);
         this.procesos.add(proceso);
         this.indiceProcesos++;
-        expandirPermisosProgramas(0, 1);
+        //expandirPermisosProgramas(0, 1);
     }
 
     public ArrayList<Recurso> obtenerRecursos(ArrayList<Instruccion> instrucciones) {
@@ -102,15 +114,15 @@ public class SistemaOperativo {
         Recurso recurso = new Recurso(this.indiceRecursos, 1, nombre);
         this.recursos.add(recurso);
         this.indiceRecursos++;
-        expandirPermisosRecursos(0, 1); // al sumarle el indice, la nueva matriz va a quedar mas grande
+        actualizarMatPermisosRecursos();
     }
 
     public void crearUsuario(String nombre) {
         Usuario usuario = new Usuario(this.indiceUsuarios, nombre);
         this.usuarios.add(usuario);
         this.indiceUsuarios++;
-        expandirPermisosRecursos(1, 0);
-        expandirPermisosProgramas(1, 0); // al sumarle el indice, la nueva matriz va a quedar mas grande
+        actualizarMatPermisosRecursos();
+        //expandirPermisosProgramas(1, 0); // al sumarle el indice, la nueva matriz va a quedar mas grande
     }
 
     public void crearUsuarioYDarPermisos(String nombre, int[] indRecursos, int[] indProgramas) {
@@ -118,7 +130,7 @@ public class SistemaOperativo {
         Usuario usuarioAgregado = this.usuarios.get(this.usuarios.size() - 1);// consigue el ultimo usuario
         for (int i = 0; i < indProgramas.length; i++) {
             Proceso programa = this.procesos.get(indProgramas[i]);
-            modificarPermisosProgramas(usuarioAgregado, programa);
+            //modificarPermisosProgramas(usuarioAgregado, programa);
         }
         for (int i = 0; i < indRecursos.length; i++) {
             Recurso recurso = this.recursos.get(indRecursos[i]);
@@ -126,49 +138,56 @@ public class SistemaOperativo {
         }
     }
 
-    public void modificarPermisosRecursos(Usuario usuario, Recurso recurso) { // siempre agrega, al menos por ahora    
-        this.permisosRecursos[usuario.getUid()][recurso.getRid()] = true;
+    public void modificarPermisosRecursos(Usuario usuario, Recurso recurso) { // siempre agrega, al menos por ahora
+        if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
+            this.permisosRecursos[usuario.getUid()][recurso.getRid()] = true;
+        }
     }
 
     public void modificarPermisosProgramas(Usuario usuario, Proceso proceso) { // siempre agrega, al menos por ahora    
         this.permisosProgramas[usuario.getUid()][proceso.getPid()] = true;
     }
 
-    public void expandirPermisosRecursos(int expU, int expR) { // siempre aumenta 1
-        boolean[][] aux = this.permisosRecursos;
-        this.permisosRecursos = new boolean[this.indiceUsuarios][this.indiceRecursos];
-        for (int i = 0; i < aux.length; i++) {
-            for (int j = 0; j < aux.length; j++) {
-                this.permisosRecursos[i][j] = aux[i][j];
+    public void actualizarMatPermisosRecursos() {
+        if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
+            boolean[][] aux = this.permisosRecursos;
+            this.permisosRecursos = new boolean[this.recursos.size()][this.usuarios.size()];
+            for (int i = 0; i < aux.length; i++) {
+                for (int j = 0; j < aux[i].length; j++) {
+                    this.permisosRecursos[i][j] = aux[i][j];
+                }
             }
         }
     }
 
     public void expandirPermisosProgramas(int expU, int expR) { // siempre aumenta 1
-        boolean[][] aux = this.permisosProgramas;
-        this.permisosProgramas = new boolean[this.indiceUsuarios][this.indiceProcesos];
-        for (int i = 0; i < aux.length; i++) {
-            for (int j = 0; j < aux.length; j++) {
-                this.permisosProgramas[i][j] = aux[i][j];
-            }
-        }
+        // copiar el otro metodo si anda
     }
 
-    public void validarAutorizacionEjecucion(Usuario usuario, ArrayList<Proceso> procesosAEjecutar) {
-        for (Proceso proceso : procesosAEjecutar) {
-            if (permisoAPrograma(usuario, proceso)) {
-                procesosListos.add(proceso.copiar());
+    public void revisarPermisosProgramas(Usuario usuario) {
+        Iterator<Proceso> it = this.procesosListos.iterator();
+        while (it.hasNext()) {
+            Proceso aVerificar = it.next();
+            if (!permisoAPrograma(usuario, aVerificar)) {
+                this.procesosListos.remove(aVerificar); // o con id?
             }
         }
     }
 
     public void correrProcesos(ArrayList<Proceso> procesosAEjecutar, Usuario usuario) {
         cargarMemoria(procesosAEjecutar);
+
         while (!memoriaVacia()) {
+
             this.procesosListos = extraerProcesosDeMemoria();
+            //revisarPermisosProgramas(usuario);
+
             while (this.procesosListos.size() > 0) {
                 Proceso procActual = this.procesosListos.get(0);
+
                 procActual.run(permisosRecursos, usuario);
+
+                this.log += procActual.getLogProc(); // esto  funciona ?
 
                 switch (procActual.getEstado()) {
                     case "esperando CPU":
@@ -182,9 +201,11 @@ public class SistemaOperativo {
                     case "terminado":
                         this.procesosListos.remove(0);
                         desencolarProcesoDeParticion(procActual.getParticion());
+                        //procActual.setProgreso(0);
                         break;
                     case "no permite":
                         this.procesosListos.remove(0);
+                        this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar los programas. \n ";
                         break;
                     default:
                         break;
@@ -196,8 +217,12 @@ public class SistemaOperativo {
 
         if (!this.procesosBloqueados.isEmpty()) {
             System.out.println("DEADLOCK");
+            this.log += "--DEADLOCK--\n";
             this.procesosBloqueados.clear();
         }
+
+        System.out.println(this.log += "------------");
+        this.log += "------------ \n";
 
         // va a terminar cuando la memoria esté vacía. Esto implica que todos los procs a ejecutar fueron insertados. 
         // Por lo tanto, si no hay deadlock, procesosListos y procesosBloqueados tamb van a estar vacias

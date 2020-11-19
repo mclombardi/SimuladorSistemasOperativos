@@ -66,7 +66,7 @@ public class CrearRecurso extends javax.swing.JFrame {
         jSeparator1.setToolTipText("");
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnAgregar.setText("Agregar");
+        btnAgregar.setText("Guardar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -138,7 +138,6 @@ public class CrearRecurso extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         String nombreRec = txtNombre.getText();
-        so.crearRecurso(nombreRec);
 
         if (nombreRec.equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese un nombre para el recurso", "Datos inválidos", JOptionPane.ERROR_MESSAGE);

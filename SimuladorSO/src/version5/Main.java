@@ -1,12 +1,14 @@
-package version5;
+ package version5;
 
-import version4.*;
+import interfaz.Menu;
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        prueba5();
+        SistemaOperativo so = new SistemaOperativo();
+        Menu menu = new Menu(so);
+        menu.setVisible(true);
     }
 
     public static void prueba5() {
@@ -75,7 +77,7 @@ public class Main {
         so.modificarPermisosProgramas(vale, alice);
         so.modificarPermisosProgramas(vale, bob);
         so.modificarPermisosProgramas(vale, charlie);
-        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
 
     }
@@ -146,7 +148,7 @@ public class Main {
         so.modificarPermisosProgramas(vale, alice);
         so.modificarPermisosProgramas(vale, bob);
         so.modificarPermisosProgramas(vale, charlie);
-        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
 
     }
@@ -199,7 +201,7 @@ public class Main {
         so.modificarPermisosProgramas(vale, alice);
         so.modificarPermisosProgramas(vale, bob);
         so.modificarPermisosProgramas(vale, charlie);
-        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
 
     }
@@ -239,7 +241,7 @@ public class Main {
         so.modificarPermisosRecursos(vale, secador);
         so.modificarPermisosProgramas(vale, alice);
         so.modificarPermisosProgramas(vale, charlie);
-        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
     }
 
@@ -301,7 +303,7 @@ public class Main {
         so.modificarPermisosProgramas(vale, bob);
         so.modificarPermisosProgramas(vale, charlie);
 
-        so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
+        //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
     }
 

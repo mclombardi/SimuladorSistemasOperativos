@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import version5.*;
 
 /**
@@ -17,16 +18,17 @@ import version5.*;
  * @author Usuario
  */
 //public class CorrerProcesos extends javax.swing.JFrame implements Observer {
-public class CorrerProcesos extends javax.swing.JFrame{
+public class CorrerProgramas extends javax.swing.JFrame {
 
     /**
      * Creates new form SeleccionarUsuario
      */
-    public CorrerProcesos(SistemaOperativo sist) {
+    public CorrerProgramas(SistemaOperativo sist) {
         initComponents();
         this.so = sist;
         cargarLista();
         cargarComboBox();
+        so.setLog("");
     }
 
     public void cargarComboBox() {
@@ -44,14 +46,6 @@ public class CorrerProcesos extends javax.swing.JFrame{
             listModel1.addElement(it.next()); // toString automatico?
         }
         listaProcesos.setModel(listModel1);
-    }
-
-    public void actualizarHistorial() {
-        /*ArrayList<String> hist = this.so.log; // hay que agregar estos atributos a Proceso
-        int indiceLog = this.so.indLog;
-
-        String actual = txtHistorial.getText() + hist.get(indiceLog) + "/n";
-        txtHistorial.setText(actual);*/
     }
 
     /**
@@ -79,15 +73,20 @@ public class CorrerProcesos extends javax.swing.JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Correr Procesos");
+        jLabel1.setText("Correr Programas");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 66, 170, 34));
 
         comboUsuarios.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         comboUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(comboUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 16, 110, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Seleccione el usuario: ");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(181, 19, -1, -1));
 
         listaProcesos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -96,6 +95,8 @@ public class CorrerProcesos extends javax.swing.JFrame{
         });
         jScrollPane1.setViewportView(listaProcesos);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 137, 170, 224));
+
         btnCorrer.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnCorrer.setText("Correr Concurrentemente");
         btnCorrer.addActionListener(new java.awt.event.ActionListener() {
@@ -103,9 +104,11 @@ public class CorrerProcesos extends javax.swing.JFrame{
                 btnCorrerActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCorrer, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 371, 170, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel5.setText("Seleccione los procesos a correr");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 110, -1, 17));
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnSalir.setText("X");
@@ -114,6 +117,7 @@ public class CorrerProcesos extends javax.swing.JFrame{
                 btnSalirActionPerformed(evt);
             }
         });
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(608, 10, -1, 38));
 
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnVolver.setText("<-- volver");
@@ -122,76 +126,28 @@ public class CorrerProcesos extends javax.swing.JFrame{
                 btnVolverActionPerformed(evt);
             }
         });
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, 30));
 
         txtHistorial.setColumns(20);
         txtHistorial.setRows(5);
         jScrollPane2.setViewportView(txtHistorial);
 
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 110, 388, 282));
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Historial de Procesos");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(btnCorrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(24, 24, 24))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnVolver)
-                .addGap(84, 84, 84)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCorrer))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 83, 388, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
         );
 
         pack();
@@ -208,21 +164,19 @@ public class CorrerProcesos extends javax.swing.JFrame{
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnCorrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrerActionPerformed
-        
-        //antes que nada tendría que notificarle a SO que que se agrego algo mas para que pare el while y vuelva a rrancar
-        
+
         int[] procs = listaProcesos.getSelectedIndices();
         ArrayList<Proceso> procesosACorrer = new ArrayList<>();
+
         for (int i = 0; i < procs.length; i++) {
             procesosACorrer.add(this.so.getProcesos().get(i));
         }
 
-        String usuarioStr = (String) comboUsuarios.getSelectedItem();
-        String[] usuarioStrArray = usuarioStr.split(" ");
-        /*Usuario usuario = this.so.buscarUsuario(Integer.parseInt(usuarioStrArray[0]));
+        int indUsuario = comboUsuarios.getSelectedIndex();
+        Usuario usuario = this.so.getUsuarios().get(indUsuario);
 
-        this.so.correrProcesos(usuario, procesosACorrer);
-        actualizarHistorial();*/
+        this.so.correrProcesos(procesosACorrer, usuario);
+        txtHistorial.setText(so.getLog());
 
     }//GEN-LAST:event_btnCorrerActionPerformed
 
@@ -247,9 +201,6 @@ public class CorrerProcesos extends javax.swing.JFrame{
     // End of variables declaration//GEN-END:variables
 
     SistemaOperativo so;
+    ArrayList<String> historial;
 
-    /*@Override
-    public void update(Observable arg0, Object arg1) {
-        actualizarHistorial();
-    }*/
 }

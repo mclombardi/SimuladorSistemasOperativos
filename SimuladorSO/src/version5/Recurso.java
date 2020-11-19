@@ -1,8 +1,7 @@
 package version5;
 
-import version4.*;
-
 public class Recurso {
+
     private int rid;
     private String nombre;
     private int bloqueado;
@@ -20,7 +19,7 @@ public class Recurso {
     public String getNombre() {
         return nombre;
     }
-    
+
     public void setNombre(String e) {
         this.nombre = e;
     }
@@ -28,16 +27,21 @@ public class Recurso {
     public int estaBloqueado() {
         return this.bloqueado;
     }
-    
+
     public void setBloqueado(int value) {
         this.bloqueado = value;
     }
 
-    public void adquirir(){
+    public void adquirir() {
         this.bloqueado = 1;
     }
 
     public void liberar() {
         this.bloqueado = 0;
+    }
+
+    @Override
+    public String toString() {
+        return this.nombre;
     }
 }

@@ -44,7 +44,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setText("Menú Principal");
 
         btnEjecturaProcesos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnEjecturaProcesos.setText("Ejecutar Procesos");
+        btnEjecturaProcesos.setText("Ejecutar Programas");
         btnEjecturaProcesos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEjecturaProcesosActionPerformed(evt);
@@ -52,7 +52,7 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btnCrearProcesos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnCrearProcesos.setText("Crear Procesos");
+        btnCrearProcesos.setText("Crear Programas");
         btnCrearProcesos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearProcesosActionPerformed(evt);
@@ -83,11 +83,11 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(btnEjecturaProcesos)
-                .addGap(69, 69, 69)
-                .addComponent(btnCrearProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
+                .addComponent(btnCrearProcesos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
+                .addGap(61, 61, 61))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir)
@@ -127,7 +127,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEjecturaProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecturaProcesosActionPerformed
-        CorrerProcesos cp = new CorrerProcesos(this.so);
+        CorrerProgramas cp = new CorrerProgramas(this.so);
         //this.so.addObserver(cp);
         cp.setVisible(true);
         dispose();
