@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        SistemaOperativo sistema = new SistemaOperativo();
+       /* SistemaOperativo sistema = new SistemaOperativo();
         Menu menu = new Menu(sistema);
-        menu.setVisible(true);
+        menu.setVisible(true);*/
         //prueba2();
     }
 

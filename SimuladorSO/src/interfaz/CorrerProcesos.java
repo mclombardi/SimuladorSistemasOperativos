@@ -10,13 +10,14 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
-import version3.*;
+import version5.*;
 
 /**
  *
  * @author Usuario
  */
-public class CorrerProcesos extends javax.swing.JFrame implements Observer {
+//public class CorrerProcesos extends javax.swing.JFrame implements Observer {
+public class CorrerProcesos extends javax.swing.JFrame{
 
     /**
      * Creates new form SeleccionarUsuario
@@ -29,7 +30,6 @@ public class CorrerProcesos extends javax.swing.JFrame implements Observer {
     }
 
     public void cargarComboBox() {
-
         comboUsuarios.removeAllItems();
         Iterator<Usuario> it = this.so.getUsuarios().iterator();
         while (it.hasNext()) {
@@ -219,10 +219,10 @@ public class CorrerProcesos extends javax.swing.JFrame implements Observer {
 
         String usuarioStr = (String) comboUsuarios.getSelectedItem();
         String[] usuarioStrArray = usuarioStr.split(" ");
-        Usuario usuario = this.so.buscarUsuario(Integer.parseInt(usuarioStrArray[0]));
+        /*Usuario usuario = this.so.buscarUsuario(Integer.parseInt(usuarioStrArray[0]));
 
         this.so.correrProcesos(usuario, procesosACorrer);
-        actualizarHistorial();
+        actualizarHistorial();*/
 
     }//GEN-LAST:event_btnCorrerActionPerformed
 
@@ -248,8 +248,8 @@ public class CorrerProcesos extends javax.swing.JFrame implements Observer {
 
     SistemaOperativo so;
 
-    @Override
+    /*@Override
     public void update(Observable arg0, Object arg1) {
         actualizarHistorial();
-    }
+    }*/
 }

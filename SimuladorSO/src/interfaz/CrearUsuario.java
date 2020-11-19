@@ -5,7 +5,10 @@
  */
 package interfaz;
 
-import version3.SistemaOperativo;
+import java.util.Iterator;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import version5.*;
 
 /**
  *
@@ -19,6 +22,24 @@ public class CrearUsuario extends javax.swing.JFrame {
     public CrearUsuario(SistemaOperativo sist) {
         initComponents();
         this.so = sist;
+        cargarListas();
+    }
+
+    public void cargarListas() {
+        DefaultListModel listModel1 = new DefaultListModel<String>();
+        Iterator<Proceso> it = this.so.getProcesos().iterator();
+        while (it.hasNext()) {
+            listModel1.addElement(it.next()); // toString automatico?
+        }
+        lstProgramas.setModel(listModel1);
+
+        DefaultListModel listModel2 = new DefaultListModel<String>();
+        Iterator<Recurso> it2 = this.so.getRecursos().iterator();
+        while (it2.hasNext()) {
+            listModel2.addElement(it2.next()); // toString automatico?
+        }
+        lstRecursos.setModel(listModel2);
+
     }
 
     /**
@@ -35,10 +56,15 @@ public class CrearUsuario extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaPermisos = new javax.swing.JList<>();
-        btnCrearRecurso = new javax.swing.JButton();
+        lstProgramas = new javax.swing.JList<>();
+        btnCrearPrograma = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        btnGuardarUsuario = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstRecursos = new javax.swing.JList<>();
+        jLabel4 = new javax.swing.JLabel();
+        btnCrearRecurso1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -47,7 +73,7 @@ public class CrearUsuario extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Crear Usuario");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(158, 6, 197, 34);
+        jLabel2.setBounds(190, 10, 197, 34);
 
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnVolver.setText("<-- volver");
@@ -67,7 +93,7 @@ public class CrearUsuario extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnSalir);
-        btnSalir.setBounds(500, 10, 39, 38);
+        btnSalir.setBounds(520, 10, 39, 38);
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,37 +103,73 @@ public class CrearUsuario extends javax.swing.JFrame {
         getContentPane().add(txtNombre);
         txtNombre.setBounds(200, 60, 180, 19);
 
-        listaPermisos.setModel(new javax.swing.AbstractListModel<String>() {
+        lstProgramas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(listaPermisos);
+        jScrollPane1.setViewportView(lstProgramas);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(110, 120, 290, 200);
+        jScrollPane1.setBounds(330, 120, 210, 200);
 
-        btnCrearRecurso.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnCrearRecurso.setText("Crear Recurso");
-        btnCrearRecurso.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearPrograma.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnCrearPrograma.setText("Crear Programa");
+        btnCrearPrograma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearRecursoActionPerformed(evt);
+                btnCrearProgramaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCrearRecurso);
-        btnCrearRecurso.setBounds(410, 280, 110, 37);
+        getContentPane().add(btnCrearPrograma);
+        btnCrearPrograma.setBounds(330, 330, 210, 37);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Permisos a recursos:");
+        jLabel1.setText("Permisos a programas:");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(100, 100, 120, 13);
+        jLabel1.setBounds(370, 100, 130, 13);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Ingrese Nombre: ");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(100, 60, 100, 13);
+
+        btnGuardarUsuario.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnGuardarUsuario.setText("Guardar Usuario");
+        btnGuardarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarUsuarioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGuardarUsuario);
+        btnGuardarUsuario.setBounds(190, 410, 210, 37);
+
+        lstRecursos.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(lstRecursos);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(30, 120, 210, 200);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Permisos a recursos:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(70, 100, 120, 10);
+
+        btnCrearRecurso1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnCrearRecurso1.setText("Crear Recurso");
+        btnCrearRecurso1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearRecurso1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCrearRecurso1);
+        btnCrearRecurso1.setBounds(30, 330, 210, 37);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -116,12 +178,12 @@ public class CrearUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
-    private void btnCrearRecursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRecursoActionPerformed
-        CrearRecurso cr = new CrearRecurso(this.so);
-        cr.setVisible(true);
+    private void btnCrearProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProgramaActionPerformed
+        CrearPrograma cp = new CrearPrograma(this.so);
+        cp.setVisible(true);
         dispose();
 
-    }//GEN-LAST:event_btnCrearRecursoActionPerformed
+    }//GEN-LAST:event_btnCrearProgramaActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         Menu m = new Menu(this.so);
@@ -135,16 +197,43 @@ public class CrearUsuario extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnGuardarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUsuarioActionPerformed
+        String nombre = txtNombre.getText();
+        int[] recursos = lstRecursos.getSelectedIndices();
+        int[] programas = lstProgramas.getSelectedIndices();
+
+        if (nombre.equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un nombre para el usuario", "Datos inválidos", JOptionPane.ERROR_MESSAGE);
+        } else {
+            so.crearUsuarioYDarPermisos(nombre, recursos, programas);
+            JOptionPane.showMessageDialog(null, "Usuario Creado");
+            lstRecursos.clearSelection();
+            txtNombre.setText("");
+        }
+    }//GEN-LAST:event_btnGuardarUsuarioActionPerformed
+
+    private void btnCrearRecurso1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRecurso1ActionPerformed
+        CrearRecurso cr = new CrearRecurso(this.so);
+        cr.setVisible(true);
+        dispose();
+
+    }//GEN-LAST:event_btnCrearRecurso1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrearRecurso;
+    private javax.swing.JButton btnCrearPrograma;
+    private javax.swing.JButton btnCrearRecurso1;
+    private javax.swing.JButton btnGuardarUsuario;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listaPermisos;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> lstProgramas;
+    private javax.swing.JList<String> lstRecursos;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 

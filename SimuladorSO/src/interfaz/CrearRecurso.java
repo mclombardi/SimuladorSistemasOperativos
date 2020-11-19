@@ -5,7 +5,8 @@
  */
 package interfaz;
 
-import version3.SistemaOperativo;
+import javax.swing.JOptionPane;
+import version5.SistemaOperativo;
 
 /**
  *
@@ -136,7 +137,17 @@ public class CrearRecurso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        String nombreRec = txtNombre.getText();
+        so.crearRecurso(nombreRec);
+
+        if (nombreRec.equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un nombre para el recurso", "Datos inválidos", JOptionPane.ERROR_MESSAGE);
+        } else {
+            so.crearRecurso(nombreRec);
+            JOptionPane.showMessageDialog(null, "Recurso Creado");
+            txtNombre.setText("");
+        }
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

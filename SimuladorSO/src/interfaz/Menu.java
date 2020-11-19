@@ -5,7 +5,7 @@
  */
 package interfaz;
 
-import version3.SistemaOperativo;
+import version5.SistemaOperativo;
 
 /**
  *
@@ -128,14 +128,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnEjecturaProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecturaProcesosActionPerformed
         CorrerProcesos cp = new CorrerProcesos(this.so);
-        this.so.addObserver(cp);
+        //this.so.addObserver(cp);
         cp.setVisible(true);
         dispose();
         
     }//GEN-LAST:event_btnEjecturaProcesosActionPerformed
 
     private void btnCrearProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProcesosActionPerformed
-        CrearProceso cp = new CrearProceso(this.so);
+        CrearPrograma cp = new CrearPrograma(this.so);
         cp.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCrearProcesosActionPerformed
