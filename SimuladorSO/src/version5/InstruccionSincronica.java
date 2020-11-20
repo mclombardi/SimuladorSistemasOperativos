@@ -1,7 +1,5 @@
 package version5;
 
-import java.util.ArrayList;
-
 public class InstruccionSincronica extends Instruccion {
 
     private Recurso recurso;

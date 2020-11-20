@@ -5,6 +5,11 @@
  */
 package interfaz;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import javax.swing.JOptionPane;
 import version5.SistemaOperativo;
 
 /**
@@ -148,7 +153,17 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        try {
+            ObjectOutputStream arch = new ObjectOutputStream(Files.newOutputStream(Paths.get("DATOS")));
+            arch.writeObject(this.so);
+            arch.close();
+            JOptionPane.showMessageDialog(this, "Datos guardados");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "No se pudieron guardar los datos");
+        }
+
         dispose();
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**

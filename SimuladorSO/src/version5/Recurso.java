@@ -1,6 +1,8 @@
 package version5;
 
-public class Recurso {
+import java.io.Serializable;
+
+public class Recurso implements Serializable{
 
     private int rid;
     private String nombre;

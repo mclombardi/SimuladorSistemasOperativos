@@ -1,9 +1,8 @@
 package version5;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.Serializable;
 
-public class Instruccion {
+public class Instruccion implements Serializable{
 
     protected String aImprimir;
     protected boolean sincronica;

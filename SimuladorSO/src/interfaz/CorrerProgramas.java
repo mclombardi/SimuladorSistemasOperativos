@@ -65,7 +65,6 @@ public class CorrerProgramas extends javax.swing.JFrame {
         listaProcesos = new javax.swing.JList<>();
         btnCorrer = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtHistorial = new javax.swing.JTextArea();
@@ -110,15 +109,6 @@ public class CorrerProgramas extends javax.swing.JFrame {
         jLabel5.setText("Seleccione los procesos a correr");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 110, -1, 17));
 
-        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnSalir.setText("X");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(608, 10, -1, 38));
-
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnVolver.setText("<-- volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -153,10 +143,6 @@ public class CorrerProgramas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         Menu m = new Menu(this.so);
         m.setVisible(true);
@@ -187,7 +173,6 @@ public class CorrerProgramas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCorrer;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> comboUsuarios;
     private javax.swing.JLabel jLabel1;

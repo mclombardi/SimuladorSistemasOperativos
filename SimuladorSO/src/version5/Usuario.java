@@ -1,8 +1,8 @@
 package version5;
 
-import version4.*;
+import java.io.Serializable;
 
-public class Usuario {
+public class Usuario implements Serializable{
 
     private int uid;
     private String nombre;

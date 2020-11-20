@@ -1,9 +1,10 @@
 package version5;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Proceso {
+public class Proceso implements Serializable{
 
     private int pid;
     private String nombre;

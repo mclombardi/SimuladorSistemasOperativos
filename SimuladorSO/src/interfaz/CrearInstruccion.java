@@ -53,7 +53,6 @@ public class CrearInstruccion extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         listaRecursos = new javax.swing.JList<>();
         btnVolver = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnCreartRecurso = new javax.swing.JButton();
@@ -96,15 +95,6 @@ public class CrearInstruccion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
-
-        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnSalir.setText("X");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 12, -1, 38));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -210,10 +200,6 @@ public class CrearInstruccion extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
     private void cbSincronicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSincronicaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbSincronicaActionPerformed
@@ -225,7 +211,6 @@ public class CrearInstruccion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnCreartRecurso;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVolver;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;

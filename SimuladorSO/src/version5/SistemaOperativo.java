@@ -1,11 +1,12 @@
 package version5;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SistemaOperativo {
+public class SistemaOperativo implements Serializable{
 
     private boolean[][] permisosRecursos; // [usuarios][recursos]
     private boolean[][] permisosProgramas; // [usuarios][programas]
