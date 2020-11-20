@@ -36,6 +36,12 @@ public class Proceso {
         return particion;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+    
+    
+
     public ArrayList<Instruccion> getInstrucciones() {
         return instrucciones;
     }
@@ -72,7 +78,7 @@ public class Proceso {
         this.insEnEjec = insEnEjec;
     }
 
-    public void run(boolean[][] permisosRecursos, Usuario usuario) { // retorna si el usuario tiene permiso de usar los recursos
+    public void run(boolean[][] permisosRecursos, Usuario usuario) { 
         this.logProc = "";
 
         int iterDisponibles = QUANTUM;
@@ -85,10 +91,11 @@ public class Proceso {
             Instruccion insActual = this.insEnEjec.get(0);
             if (insActual.isSincronica()) {
                 InstruccionSincronica insSinc = (InstruccionSincronica) insActual;
-                /*if (!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
+                if (!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
                     setEstado("no permite");
+                    this.progreso=0;
                     return;
-                }*/
+                }
             }
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);

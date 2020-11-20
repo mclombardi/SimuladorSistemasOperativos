@@ -95,7 +95,7 @@ public class SistemaOperativo {
         Proceso proceso = new Proceso(indiceProcesos, nombre, instrucciones, recursos, particion);
         this.procesos.add(proceso);
         this.indiceProcesos++;
-        //expandirPermisosProgramas(0, 1);
+
     }
 
     public ArrayList<Recurso> obtenerRecursos(ArrayList<Instruccion> instrucciones) {
@@ -131,17 +131,17 @@ public class SistemaOperativo {
         Usuario usuarioAgregado = this.usuarios.get(this.usuarios.size() - 1);// consigue el ultimo usuario
 
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
-            //expandirMatrizDePermisosDeRecursos();
+            expandirMatrizDePermisosDeRecursos();
             //expandirMatrizDePermisosDeProgramas();
 
             /*for (int i = 0; i < indProgramas.length; i++) {
                 Proceso programa = this.procesos.get(indProgramas[i]);
                 this.permisosProgramas[usuarioAgregado.getUid()][programa.getPid()] = true;
-            }
+            }*/
             for (int i = 0; i < indRecursos.length; i++) {
                 Recurso recurso = this.recursos.get(indRecursos[i]);
                 this.permisosRecursos[usuarioAgregado.getUid()][recurso.getRid()] = true;
-            }*/
+            }
         }
     }
 
@@ -183,11 +183,10 @@ public class SistemaOperativo {
         while (!memoriaVacia()) {
 
             this.procesosListos = extraerProcesosDeMemoria();
-                      
-            //revisarPermisosProgramas(usuario);
 
+            //revisarPermisosProgramas(usuario);
             while (this.procesosListos.size() > 0) {
-                
+
                 Proceso procActual = this.procesosListos.get(0);
 
                 procActual.run(permisosRecursos, usuario);
@@ -209,8 +208,9 @@ public class SistemaOperativo {
                         //procActual.setProgreso(0);
                         break;
                     case "no permite":
+                        this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar la siguiente instrucción del programa " 
+                                + this.procesosListos.get(0).getNombre() + ". \n ";
                         this.procesosListos.remove(0);
-                        this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar los programas. \n ";
                         break;
                     default:
                         break;
