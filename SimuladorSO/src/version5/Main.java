@@ -10,7 +10,7 @@ public class Main {
         Menu menu = new Menu(so);
         menu.setVisible(true);
     }
-
+/*
     public static void prueba5() {
         SistemaOperativo so = new SistemaOperativo();
         so.crearRecurso("escalera");
@@ -48,7 +48,7 @@ public class Main {
         ArrayList<Instruccion> arrBob = new ArrayList<>();
         arrBob.add(b1);
         /*arrBob.add(b2);
-        arrBob.add(b3);*/
+        arrBob.add(b3);
         ArrayList<Instruccion> arrCharlie = new ArrayList<>();
         //arrCharlie.add(c1);
         arrCharlie.add(c2);
@@ -305,6 +305,6 @@ public class Main {
 
         //so.validarAutorizacionEjecucion(vale, procesosAEjecutar);
         so.correrProcesos(procesosAEjecutar, vale);
-    }
+    }*/
 
 }

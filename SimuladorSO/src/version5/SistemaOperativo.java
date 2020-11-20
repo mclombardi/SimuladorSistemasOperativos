@@ -79,6 +79,7 @@ public class SistemaOperativo {
         return instrucciones;
     }
 
+    // -------------------------------------------------------------------------
     public void crearInstruccionAsincronica(String aImprimir) {
         InstruccionAsincronica ia = new InstruccionAsincronica(aImprimir);
         instrucciones.add(ia);
@@ -114,53 +115,50 @@ public class SistemaOperativo {
         Recurso recurso = new Recurso(this.indiceRecursos, 1, nombre);
         this.recursos.add(recurso);
         this.indiceRecursos++;
-        actualizarMatPermisosRecursos();
+        //actualizarMatPermisosRecursos();
     }
 
     public void crearUsuario(String nombre) {
         Usuario usuario = new Usuario(this.indiceUsuarios, nombre);
         this.usuarios.add(usuario);
         this.indiceUsuarios++;
-        actualizarMatPermisosRecursos();
+        //actualizarMatPermisosRecursos();
         //expandirPermisosProgramas(1, 0); // al sumarle el indice, la nueva matriz va a quedar mas grande
     }
 
     public void crearUsuarioYDarPermisos(String nombre, int[] indRecursos, int[] indProgramas) {
         crearUsuario(nombre);
         Usuario usuarioAgregado = this.usuarios.get(this.usuarios.size() - 1);// consigue el ultimo usuario
-        for (int i = 0; i < indProgramas.length; i++) {
-            Proceso programa = this.procesos.get(indProgramas[i]);
-            //modificarPermisosProgramas(usuarioAgregado, programa);
-        }
-        for (int i = 0; i < indRecursos.length; i++) {
-            Recurso recurso = this.recursos.get(indRecursos[i]);
-            modificarPermisosRecursos(usuarioAgregado, recurso);
-        }
-    }
 
-    public void modificarPermisosRecursos(Usuario usuario, Recurso recurso) { // siempre agrega, al menos por ahora
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
-            this.permisosRecursos[usuario.getUid()][recurso.getRid()] = true;
+            //expandirMatrizDePermisosDeRecursos();
+            //expandirMatrizDePermisosDeProgramas();
+
+            /*for (int i = 0; i < indProgramas.length; i++) {
+                Proceso programa = this.procesos.get(indProgramas[i]);
+                this.permisosProgramas[usuarioAgregado.getUid()][programa.getPid()] = true;
+            }
+            for (int i = 0; i < indRecursos.length; i++) {
+                Recurso recurso = this.recursos.get(indRecursos[i]);
+                this.permisosRecursos[usuarioAgregado.getUid()][recurso.getRid()] = true;
+            }*/
         }
     }
 
-    public void modificarPermisosProgramas(Usuario usuario, Proceso proceso) { // siempre agrega, al menos por ahora    
-        this.permisosProgramas[usuario.getUid()][proceso.getPid()] = true;
-    }
+    // -------------------------------------------------------------------------
+    private void expandirMatrizDePermisosDeRecursos() {
+        // pre:this.recursos.size() > 0 && this.usuarios.size() > 0
 
-    public void actualizarMatPermisosRecursos() {
-        if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
-            boolean[][] aux = this.permisosRecursos;
-            this.permisosRecursos = new boolean[this.recursos.size()][this.usuarios.size()];
-            for (int i = 0; i < aux.length; i++) {
-                for (int j = 0; j < aux[i].length; j++) {
-                    this.permisosRecursos[i][j] = aux[i][j];
-                }
+        boolean[][] aux = this.permisosRecursos;
+        this.permisosRecursos = new boolean[this.usuarios.size()][this.recursos.size()];
+        for (int i = 0; i < aux.length; i++) {
+            for (int j = 0; j < aux[i].length; j++) {
+                this.permisosRecursos[i][j] = aux[i][j];
             }
         }
     }
 
-    public void expandirPermisosProgramas(int expU, int expR) { // siempre aumenta 1
+    private void expandirMatrizDePermisosDeProgramas() {
         // copiar el otro metodo si anda
     }
 
@@ -174,15 +172,22 @@ public class SistemaOperativo {
         }
     }
 
+    private boolean permisoAPrograma(Usuario usuario, Proceso proceso) {
+        return this.permisosProgramas[usuario.getUid()][proceso.getPid()];
+    }
+
+    // -------------------------------------------------------------------------
     public void correrProcesos(ArrayList<Proceso> procesosAEjecutar, Usuario usuario) {
         cargarMemoria(procesosAEjecutar);
 
         while (!memoriaVacia()) {
 
             this.procesosListos = extraerProcesosDeMemoria();
+                      
             //revisarPermisosProgramas(usuario);
 
             while (this.procesosListos.size() > 0) {
+                
                 Proceso procActual = this.procesosListos.get(0);
 
                 procActual.run(permisosRecursos, usuario);
@@ -228,30 +233,7 @@ public class SistemaOperativo {
         // Por lo tanto, si no hay deadlock, procesosListos y procesosBloqueados tamb van a estar vacias
     }
 
-    private boolean memoriaVacia() {
-        boolean vacia = true;
-        for (int i = 1; i < this.memoria.length && vacia; i++) {
-            vacia = vacia && this.memoria[i].isEmpty();
-        }
-        return vacia;
-    }
-
-    public void cargarMemoria(ArrayList<Proceso> aCorrer) {
-        for (Proceso p : aCorrer) {
-            this.memoria[p.getParticion()].add(p);
-        }
-    }
-
-    public int indiceAleatorio() {
-        Random rand = new Random();
-        int i = rand.nextInt(5);
-        while (i == 0) {
-            i = rand.nextInt(5);
-        }
-        return i;
-    }
-
-    public void desencolarProcesoDeParticion(int particion) {
+    private void desencolarProcesoDeParticion(int particion) {
         if (!this.memoria[particion].isEmpty()) {
             Proceso nuevoProc = this.memoria[particion].get(0);
             this.memoria[particion].remove(0);
@@ -259,7 +241,7 @@ public class SistemaOperativo {
         }
     }
 
-    public CopyOnWriteArrayList<Proceso> extraerProcesosDeMemoria() {
+    private CopyOnWriteArrayList<Proceso> extraerProcesosDeMemoria() {
 
         CopyOnWriteArrayList<Proceso> procesosACorrer = new CopyOnWriteArrayList<>();
 
@@ -280,7 +262,7 @@ public class SistemaOperativo {
         return procesosACorrer;
     }
 
-    public void desbloquearProcesos() {
+    private void desbloquearProcesos() {
         for (Proceso proceso : this.procesosBloqueados) {
             boolean recursosLibres = true;
             for (Recurso recurso : proceso.getRecursos()) {
@@ -293,7 +275,29 @@ public class SistemaOperativo {
         }
     }
 
-    public boolean permisoAPrograma(Usuario usuario, Proceso proceso) {
-        return this.permisosProgramas[usuario.getUid()][proceso.getPid()];
+    // -------------------------------------------------------------------------
+    private boolean memoriaVacia() {
+        boolean vacia = true;
+        for (int i = 1; i < this.memoria.length && vacia; i++) {
+            vacia = vacia && this.memoria[i].isEmpty();
+        }
+        return vacia;
     }
+
+    private void cargarMemoria(ArrayList<Proceso> aCorrer) {
+        for (Proceso p : aCorrer) {
+            this.memoria[p.getParticion()].add(p);
+        }
+    }
+
+    private int indiceAleatorio() {
+        Random rand = new Random();
+        int i = rand.nextInt(5);
+        while (i == 0) {
+            i = rand.nextInt(5);
+        }
+        return i;
+    }
+
+    // -------------------------------------------------------------------------
 }

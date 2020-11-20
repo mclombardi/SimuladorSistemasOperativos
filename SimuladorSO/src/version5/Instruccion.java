@@ -25,6 +25,11 @@ public class Instruccion {
         return logUnaEjec;
     }
 
+    public int getProgreso() {
+        return progreso;
+    }
+    
+
     public int run(int iterDisponibles) {
         this.logUnaEjec = "";
 

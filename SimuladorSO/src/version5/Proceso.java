@@ -16,6 +16,8 @@ public class Proceso {
     final static private int QUANTUM = 3;
     private String logProc;
 
+    private ArrayList<Instruccion> insEnEjec;
+
     public Proceso(int pid, String nombre, ArrayList<Instruccion> instrucciones, ArrayList<Recurso> recursos, int particion) {
         this.pid = pid;
         this.nombre = nombre;
@@ -26,6 +28,8 @@ public class Proceso {
         this.totalIns = instrucciones.size() * 5;
         this.particion = particion;
         this.logProc = "";
+
+        this.insEnEjec = new ArrayList<>();
     }
 
     public int getParticion() {
@@ -64,20 +68,27 @@ public class Proceso {
         this.progreso = progreso;
     }
 
+    public void setInsEnEjec(ArrayList<Instruccion> insEnEjec) {
+        this.insEnEjec = insEnEjec;
+    }
+
     public void run(boolean[][] permisosRecursos, Usuario usuario) { // retorna si el usuario tiene permiso de usar los recursos
         this.logProc = "";
 
         int iterDisponibles = QUANTUM;
-        ArrayList<Instruccion> lista = (ArrayList<Instruccion>) this.instrucciones.clone(); // es necesario?
 
-        while (lista.size() > 0 && (this.progreso < totalIns) && iterDisponibles > 0) {
-            Instruccion insActual = lista.get(0);
+        if (this.progreso == 0) {
+            this.insEnEjec = (ArrayList<Instruccion>) this.instrucciones.clone(); // es necesario?
+        }
+
+        while (this.insEnEjec.size() > 0 && (this.progreso < totalIns) && iterDisponibles > 0) {
+            Instruccion insActual = this.insEnEjec.get(0);
             if (insActual.isSincronica()) {
                 InstruccionSincronica insSinc = (InstruccionSincronica) insActual;
-                if (!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
+                /*if (!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
                     setEstado("no permite");
                     return;
-                }
+                }*/
             }
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);
@@ -92,10 +103,10 @@ public class Proceso {
             }
 
             if (progreso % 5 == 0) {
-                lista.remove(0);
-                if (progreso == 5) { // proceso terminado
-                    insActual.setProgreso(0);                  
+                if (this.insEnEjec.get(0).getProgreso() == 5) { // proceso terminado
+                    insActual.setProgreso(0);
                 }
+                this.insEnEjec.remove(0);
             }
         }
 

@@ -16,10 +16,6 @@ public class InstruccionSincronica extends Instruccion {
         return recurso;
     }
 
-    public Integer getProgreso() {
-        return this.progreso;
-    }
-
     public boolean tengoElRecurso() {
         return this.tengoElRecurso;
     }
@@ -45,7 +41,7 @@ public class InstruccionSincronica extends Instruccion {
             }
             if (progreso == 5) {
                 this.recurso.liberar();
-                this.tengoElRecurso = true;
+                this.tengoElRecurso = false; // false
             }
             return iterDisponibles - progresoAux;
         }

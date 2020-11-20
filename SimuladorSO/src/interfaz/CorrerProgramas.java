@@ -169,7 +169,8 @@ public class CorrerProgramas extends javax.swing.JFrame {
         ArrayList<Proceso> procesosACorrer = new ArrayList<>();
 
         for (int i = 0; i < procs.length; i++) {
-            procesosACorrer.add(this.so.getProcesos().get(i));
+            Proceso proc = this.so.getProcesos().get(procs[i]);
+            procesosACorrer.add(proc);
         }
 
         int indUsuario = comboUsuarios.getSelectedIndex();
