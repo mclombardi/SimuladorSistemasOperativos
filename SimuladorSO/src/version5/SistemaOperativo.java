@@ -115,15 +115,12 @@ public class SistemaOperativo {
         Recurso recurso = new Recurso(this.indiceRecursos, 1, nombre);
         this.recursos.add(recurso);
         this.indiceRecursos++;
-        //actualizarMatPermisosRecursos();
     }
 
     public void crearUsuario(String nombre) {
         Usuario usuario = new Usuario(this.indiceUsuarios, nombre);
         this.usuarios.add(usuario);
         this.indiceUsuarios++;
-        //actualizarMatPermisosRecursos();
-        //expandirPermisosProgramas(1, 0); // al sumarle el indice, la nueva matriz va a quedar mas grande
     }
 
     public void crearUsuarioYDarPermisos(String nombre, int[] indRecursos, int[] indProgramas) {
@@ -132,20 +129,25 @@ public class SistemaOperativo {
 
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
             expandirMatrizDePermisosDeRecursos();
-            //expandirMatrizDePermisosDeProgramas();
 
-            /*for (int i = 0; i < indProgramas.length; i++) {
-                Proceso programa = this.procesos.get(indProgramas[i]);
-                this.permisosProgramas[usuarioAgregado.getUid()][programa.getPid()] = true;
-            }*/
             for (int i = 0; i < indRecursos.length; i++) {
                 Recurso recurso = this.recursos.get(indRecursos[i]);
                 this.permisosRecursos[usuarioAgregado.getUid()][recurso.getRid()] = true;
             }
         }
+
+        if (this.procesos.size() > 0 && this.usuarios.size() > 0) {
+            expandirMatrizDePermisosDeProgramas();
+
+            for (int i = 0; i < indProgramas.length; i++) {
+                Proceso programa = this.procesos.get(indProgramas[i]);
+                this.permisosProgramas[usuarioAgregado.getUid()][programa.getPid()] = true;
+            }
+        }
+
     }
 
-    // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
     private void expandirMatrizDePermisosDeRecursos() {
         // pre:this.recursos.size() > 0 && this.usuarios.size() > 0
 
@@ -159,7 +161,15 @@ public class SistemaOperativo {
     }
 
     private void expandirMatrizDePermisosDeProgramas() {
-        // copiar el otro metodo si anda
+        // pre:this.programas.size() > 0 && this.usuarios.size() > 0
+
+        boolean[][] aux = this.permisosProgramas;
+        this.permisosProgramas = new boolean[this.usuarios.size()][this.procesos.size()];
+        for (int i = 0; i < aux.length; i++) {
+            for (int j = 0; j < aux[i].length; j++) {
+                this.permisosProgramas[i][j] = aux[i][j];
+            }
+        }
     }
 
     public void revisarPermisosProgramas(Usuario usuario) {
@@ -184,7 +194,7 @@ public class SistemaOperativo {
 
             this.procesosListos = extraerProcesosDeMemoria();
 
-            //revisarPermisosProgramas(usuario);
+            revisarPermisosProgramas(usuario);
             while (this.procesosListos.size() > 0) {
 
                 Proceso procActual = this.procesosListos.get(0);
@@ -208,7 +218,7 @@ public class SistemaOperativo {
                         //procActual.setProgreso(0);
                         break;
                     case "no permite":
-                        this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar la siguiente instrucción del programa " 
+                        this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar la siguiente instrucción del programa "
                                 + this.procesosListos.get(0).getNombre() + ". \n ";
                         this.procesosListos.remove(0);
                         break;
