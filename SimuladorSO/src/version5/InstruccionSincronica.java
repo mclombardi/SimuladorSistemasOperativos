@@ -4,7 +4,7 @@ public class InstruccionSincronica extends Instruccion {
 
     private Recurso recurso;
     private boolean tengoElRecurso;
-
+     
     public InstruccionSincronica(String aImprimir, Recurso recurso) {
         super(aImprimir, true);
         this.recurso = recurso;
@@ -20,13 +20,13 @@ public class InstruccionSincronica extends Instruccion {
 
     public int run(int iterDisponibles) {
         super.logUnaEjec = "";
-        if (this.tengoElRecurso || this.recurso.estaBloqueado() == 0) {
+        if (this.tengoElRecurso || !this.recurso.estaBloqueado()) {
             if (!this.tengoElRecurso) {
                 this.recurso.adquirir();
                 this.tengoElRecurso = true;
             }
             int progresoAux = 0;
-            for (int i = progreso; i < 5; i++) {
+            for (int i = progreso; i < this.tiempoEsperado; i++) {
 
                 if (progresoAux < iterDisponibles) {
                     System.out.println(super.aImprimir);
@@ -37,7 +37,7 @@ public class InstruccionSincronica extends Instruccion {
                     progreso++;
                 }
             }
-            if (progreso == 5) {
+            if (progreso == tiempoEsperado) {
                 this.recurso.liberar();
                 this.tengoElRecurso = false; // false
             }

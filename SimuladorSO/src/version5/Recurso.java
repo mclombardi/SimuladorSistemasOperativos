@@ -26,8 +26,8 @@ public class Recurso implements Serializable{
         this.nombre = e;
     }
 
-    public int estaBloqueado() {
-        return this.bloqueado;
+    public boolean estaBloqueado() {
+        return this.bloqueado == 1;
     }
 
     public void setBloqueado(int value) {

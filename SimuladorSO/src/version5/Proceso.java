@@ -26,11 +26,19 @@ public class Proceso implements Serializable{
         this.recursos = recursos;
         this.estado = "listo";
         this.progreso = 0;
-        this.totalIns = instrucciones.size() * 5;
+        this.totalIns = calcularTotalInstrucciones();
         this.particion = particion;
         this.logProc = "";
 
         this.insEnEjec = new ArrayList<>();
+    }
+    
+    public int calcularTotalInstrucciones() {
+        int total = 0;
+        for(Instruccion ins : instrucciones){
+            total =+ ins.tiempoEsperado();
+        }
+        return total;
     }
 
     public int getParticion() {
@@ -93,7 +101,7 @@ public class Proceso implements Serializable{
         int iterDisponibles = QUANTUM;
 
         if (this.progreso == 0) {
-            this.insEnEjec = (ArrayList<Instruccion>) this.instrucciones.clone(); // es necesario?
+            this.insEnEjec = (ArrayList<Instruccion>) this.instrucciones.clone();
         }
 
         while (this.insEnEjec.size() > 0 && (this.progreso < totalIns) && iterDisponibles > 0) {
@@ -102,14 +110,15 @@ public class Proceso implements Serializable{
                 InstruccionSincronica insSinc = (InstruccionSincronica) insActual;
                 if (!permisoARecurso(permisosRecursos, usuario, insSinc.getRecurso())) {
                     setEstado("no permite");
-                    this.progreso=0;
+                    this.progreso = 0;
                     return;
                 }
             }
+            
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);
 
-            this.logProc += insActual.getLogUnaEjec(); // esto no funciona?
+            this.logProc += insActual.getLogUnaEjec();
 
             progreso = progreso + (iterAux - iterDisponibles);
 
@@ -117,11 +126,16 @@ public class Proceso implements Serializable{
                 setEstado("bloqueado");
                 return;
             }
-
-            if (progreso % 5 == 0) {
-                if (this.insEnEjec.get(0).getProgreso() == 5) { // proceso terminado
-                    insActual.setProgreso(0);
-                }
+//
+//            if (progreso % 5 == 0) {
+//                if (this.insEnEjec.get(0).getProgreso() == 5) { // proceso terminado
+//                    insActual.setProgreso(0);
+//                }
+//                this.insEnEjec.remove(0);
+//            }
+            
+            if (insActual.estaTerminado()) {
+                insActual.setProgreso(0);
                 this.insEnEjec.remove(0);
             }
         }

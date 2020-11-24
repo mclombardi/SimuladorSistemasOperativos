@@ -276,7 +276,7 @@ public class SistemaOperativo implements Serializable {
 
     private void desbloquearProcesos() {
         for (Proceso proceso : this.procesosBloqueados) {
-            if (proceso.proximoRecursoNecesario() != null && proceso.proximoRecursoNecesario().estaBloqueado() == 0) {
+            if (proceso.proximoRecursoNecesario() != null && !proceso.proximoRecursoNecesario().estaBloqueado()) {
                 procesosBloqueados.remove(proceso);
                 procesosListos.add(0, proceso);
             }

@@ -66,8 +66,6 @@ public class CrearRecurso extends javax.swing.JFrame {
 
         jLabel1.setText("Ingrese Nombre: ");
 
-        txtNombre.setText(" ");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
