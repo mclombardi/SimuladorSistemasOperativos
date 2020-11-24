@@ -7,6 +7,7 @@ package interfaz;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import version5.*;
@@ -207,7 +208,10 @@ public class CrearPrograma extends javax.swing.JFrame {
         int[] indicesInstrucciones = listaTodasIns.getSelectedIndices();
         ArrayList<Instruccion> insAEjec = new ArrayList<>();
         
+        List<String> instr = listaTodasIns.getSelectedValuesList();
+
         for (int i = 0; i < indicesInstrucciones.length; i++) {
+            
             Instruccion ins = so.getInstrucciones().get(indicesInstrucciones[i]);
             insAEjec.add(ins);          
         }

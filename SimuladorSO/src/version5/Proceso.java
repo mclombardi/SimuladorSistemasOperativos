@@ -41,7 +41,15 @@ public class Proceso implements Serializable{
         return nombre;
     }
     
-    
+    public Recurso proximoRecursoNecesario() {
+        Instruccion proximIns = insEnEjec.get(0);
+        if (proximIns.sincronica) {
+            InstruccionSincronica sinc = (InstruccionSincronica) proximIns;
+            return sinc.getRecurso();
+        }
+        
+        return null;
+    }
 
     public ArrayList<Instruccion> getInstrucciones() {
         return instrucciones;
