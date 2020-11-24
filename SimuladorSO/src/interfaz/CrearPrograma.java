@@ -226,6 +226,7 @@ public class CrearPrograma extends javax.swing.JFrame {
             //listaTodasIns.clearSelection();
             txtNombre.setText("");
             spnParticion.setValue(1);
+            this.insAEjec.clear();
         }
 
 
