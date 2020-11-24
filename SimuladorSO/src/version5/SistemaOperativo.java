@@ -93,7 +93,8 @@ public class SistemaOperativo implements Serializable {
 
     public void crearProceso(String nombre, ArrayList<Instruccion> instrucciones, int particion) {
         ArrayList<Recurso> recursos = obtenerRecursos(instrucciones);
-        Proceso proceso = new Proceso(indiceProcesos, nombre, instrucciones, recursos, particion);
+        ArrayList<Instruccion> insAIns = (ArrayList<Instruccion>) instrucciones.clone();
+        Proceso proceso = new Proceso(indiceProcesos, nombre, insAIns, recursos, particion);
         this.procesos.add(proceso);
         this.indiceProcesos++;
 
@@ -312,7 +313,7 @@ public class SistemaOperativo implements Serializable {
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
             expandirMatrizDePermisosDeRecursos();
 
-            for (int i = 0; i < this.permisosRecursos.length; i++) {
+            for (int i = 0; i < this.permisosRecursos[indUsuario].length; i++) {
                 this.permisosRecursos[indUsuario][i] = false;
             }
             for (int i = 0; i < indRecursos.length; i++) {
@@ -325,7 +326,7 @@ public class SistemaOperativo implements Serializable {
 
             expandirMatrizDePermisosDeProgramas();
 
-            for (int i = 0; i < this.permisosProgramas.length; i++) {
+            for (int i = 0; i < this.permisosProgramas[indUsuario].length; i++) {
                 this.permisosProgramas[indUsuario][i] = false;
             }
             for (int i = 0; i < indProgramas.length; i++) {
