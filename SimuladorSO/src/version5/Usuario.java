@@ -20,4 +20,8 @@ public class Usuario implements Serializable{
     public String toString() {
         return this.nombre;
     }
+
+    public String getNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

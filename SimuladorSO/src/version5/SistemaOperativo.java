@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SistemaOperativo implements Serializable{
+public class SistemaOperativo implements Serializable {
 
     private boolean[][] permisosRecursos; // [usuarios][recursos]
     private boolean[][] permisosProgramas; // [usuarios][programas]
@@ -307,4 +307,32 @@ public class SistemaOperativo implements Serializable{
     }
 
     // -------------------------------------------------------------------------
+    public void modificarPermisosUsuario(int indUsuario, int[] indRecursos, int[] indProgramas) {
+
+        if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
+            expandirMatrizDePermisosDeRecursos();
+
+            for (int i = 0; i < this.permisosRecursos.length; i++) {
+                this.permisosRecursos[indUsuario][i] = false;
+            }
+            for (int i = 0; i < indRecursos.length; i++) {
+                Recurso recurso = this.recursos.get(indRecursos[i]);
+                this.permisosRecursos[indUsuario][recurso.getRid()] = true;
+            }
+
+        }
+        if (this.procesos.size() > 0 && this.usuarios.size() > 0) {
+
+            expandirMatrizDePermisosDeProgramas();
+
+            for (int i = 0; i < this.permisosProgramas.length; i++) {
+                this.permisosProgramas[indUsuario][i] = false;
+            }
+            for (int i = 0; i < indProgramas.length; i++) {
+                Proceso programa = this.procesos.get(indProgramas[i]);
+                this.permisosProgramas[indUsuario][programa.getPid()] = true;
+            }
+        }
+
+    }
 }
