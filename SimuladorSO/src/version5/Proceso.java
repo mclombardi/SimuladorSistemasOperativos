@@ -26,19 +26,20 @@ public class Proceso implements Serializable{
         this.recursos = recursos;
         this.estado = "listo";
         this.progreso = 0;
-        this.totalIns = calcularTotalInstrucciones();
+        this.totalIns = 0;
         this.particion = particion;
         this.logProc = "";
 
         this.insEnEjec = new ArrayList<>();
+        calcularTotalInstrucciones();
     }
     
-    public int calcularTotalInstrucciones() {
-        int total = 0;
-        for(Instruccion ins : instrucciones){
-            total =+ ins.tiempoEsperado();
+    private void calcularTotalInstrucciones() {
+        for (int i = 0; i < instrucciones.size(); i++) {
+           Instruccion instruccion = instrucciones.get(i);
+           this.totalIns = this.totalIns + instruccion.tiempoEsperado();
         }
-        return total;
+        System.out.println(totalIns);
     }
 
     public int getParticion() {
