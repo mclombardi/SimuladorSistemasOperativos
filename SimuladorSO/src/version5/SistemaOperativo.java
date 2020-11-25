@@ -81,7 +81,6 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
-    
     public void crearInstruccionAsincronica(String aImprimir) {
         InstruccionAsincronica ia = new InstruccionAsincronica(aImprimir);
         instrucciones.add(ia);
@@ -98,7 +97,7 @@ public class SistemaOperativo implements Serializable {
         Proceso proceso = new Proceso(indiceProcesos, nombre, insAIns, recursos, particion);
         this.procesos.add(proceso);
         this.indiceProcesos++;
-
+        expandirMatrizDePermisosDeProgramas();
     }
 
     public ArrayList<Recurso> obtenerRecursos(ArrayList<Instruccion> instrucciones) {
@@ -108,7 +107,7 @@ public class SistemaOperativo implements Serializable {
                 InstruccionSincronica is = (InstruccionSincronica) ins;
                 recursos.add(is.getRecurso());
             } catch (Exception e) {
-                continue; 
+                continue;
             }
         }
         return recursos;
@@ -118,6 +117,7 @@ public class SistemaOperativo implements Serializable {
         Recurso recurso = new Recurso(this.indiceRecursos, 1, nombre);
         this.recursos.add(recurso);
         this.indiceRecursos++;
+        expandirMatrizDePermisosDeRecursos();
     }
 
     public void crearUsuario(String nombre) {
@@ -151,7 +151,6 @@ public class SistemaOperativo implements Serializable {
     }
 
 // -------------------------------------------------------------------------
-    
     private void expandirMatrizDePermisosDeRecursos() {
         // pre:this.recursos.size() > 0 && this.usuarios.size() > 0
 
@@ -181,17 +180,20 @@ public class SistemaOperativo implements Serializable {
         while (it.hasNext()) {
             Proceso aVerificar = it.next();
             if (!permisoAPrograma(usuario, aVerificar)) {
-                this.procesosListos.remove(aVerificar); 
+                this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a este programa ";
+                this.procesosListos.remove(aVerificar);
             }
         }
     }
 
     private boolean permisoAPrograma(Usuario usuario, Proceso proceso) {
-        return this.permisosProgramas[usuario.getUid()][proceso.getPid()];
+        if (this.procesos.size() > 0) { // como me estan pasando un usuario ya sabemos que  this.usuarios.size() > 0)
+            return this.permisosProgramas[usuario.getUid()][proceso.getPid()];
+        }
+        return false;
     }
 
     // --------------------------------------------------------------------------------
-    
     public void correrProcesos(ArrayList<Proceso> procesosAEjecutar, Usuario usuario) {
         cargarMemoria(procesosAEjecutar);
 
@@ -206,7 +208,7 @@ public class SistemaOperativo implements Serializable {
 
                 procActual.run(permisosRecursos, usuario);
 
-                this.log += procActual.getLogProc(); 
+                this.log += procActual.getLogProc();
 
                 switch (procActual.getEstado()) {
                     case "esperando CPU":
@@ -286,7 +288,6 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
-    
     private boolean memoriaVacia() {
         boolean vacia = true;
         for (int i = 1; i < this.memoria.length && vacia; i++) {
@@ -311,7 +312,6 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
-    
     public void modificarPermisosUsuario(int indUsuario, int[] indRecursos, int[] indProgramas) {
 
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {

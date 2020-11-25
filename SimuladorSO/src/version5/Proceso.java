@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Proceso implements Serializable{
+public class Proceso implements Serializable {
 
     private int pid;
     private String nombre;
@@ -33,11 +33,11 @@ public class Proceso implements Serializable{
         this.insEnEjec = new ArrayList<>();
         calcularTotalInstrucciones();
     }
-    
+
     private void calcularTotalInstrucciones() {
         for (int i = 0; i < instrucciones.size(); i++) {
-           Instruccion instruccion = instrucciones.get(i);
-           this.totalIns = this.totalIns + instruccion.tiempoEsperado();
+            Instruccion instruccion = instrucciones.get(i);
+            this.totalIns = this.totalIns + instruccion.tiempoEsperado();
         }
         System.out.println(totalIns);
     }
@@ -49,14 +49,14 @@ public class Proceso implements Serializable{
     public String getNombre() {
         return nombre;
     }
-    
+
     public Recurso proximoRecursoNecesario() {
         Instruccion proximIns = insEnEjec.get(0);
         if (proximIns.sincronica) {
             InstruccionSincronica sinc = (InstruccionSincronica) proximIns;
             return sinc.getRecurso();
         }
-        
+
         return null;
     }
 
@@ -96,7 +96,7 @@ public class Proceso implements Serializable{
         this.insEnEjec = insEnEjec;
     }
 
-    public void run(boolean[][] permisosRecursos, Usuario usuario) { 
+    public void run(boolean[][] permisosRecursos, Usuario usuario) {
         this.logProc = "";
 
         int iterDisponibles = QUANTUM;
@@ -115,7 +115,7 @@ public class Proceso implements Serializable{
                     return;
                 }
             }
-            
+
             int iterAux = iterDisponibles;
             iterDisponibles = insActual.run(iterDisponibles);
 
@@ -151,7 +151,10 @@ public class Proceso implements Serializable{
     }
 
     private boolean permisoARecurso(boolean[][] permisosRecursos, Usuario usuario, Recurso recurso) {
-        return permisosRecursos[usuario.getUid()][recurso.getRid()];
+        if (this.recursos.size() > 0) { // como me estan pasando un usuario ya sabemos que  this.usuarios.size() > 0)
+            return permisosRecursos[usuario.getUid()][recurso.getRid()];
+        }
+        return false;
     }
 
     @Override
