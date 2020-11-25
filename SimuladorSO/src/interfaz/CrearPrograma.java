@@ -33,7 +33,7 @@ public class CrearPrograma extends javax.swing.JFrame {
         DefaultListModel listModel1 = new DefaultListModel<String>();
         Iterator<Instruccion> it = this.so.getInstrucciones().iterator();
         while (it.hasNext()) {
-            listModel1.addElement(it.next()); // toString automatico?
+            listModel1.addElement(it.next()); 
         }
         listaTodasIns.setModel(listModel1);
     }
@@ -223,7 +223,6 @@ public class CrearPrograma extends javax.swing.JFrame {
         } else {
             so.crearProceso(nombreProg, insAEjec, particion);
             JOptionPane.showMessageDialog(null, "Programa Creado");
-            //listaTodasIns.clearSelection();
             txtNombre.setText("");
             spnParticion.setValue(1);
             this.insAEjec.clear();

@@ -127,14 +127,7 @@ public class Proceso implements Serializable{
                 setEstado("bloqueado");
                 return;
             }
-//
-//            if (progreso % 5 == 0) {
-//                if (this.insEnEjec.get(0).getProgreso() == 5) { // proceso terminado
-//                    insActual.setProgreso(0);
-//                }
-//                this.insEnEjec.remove(0);
-//            }
-            
+
             if (insActual.estaTerminado()) {
                 insActual.setProgreso(0);
                 this.insEnEjec.remove(0);

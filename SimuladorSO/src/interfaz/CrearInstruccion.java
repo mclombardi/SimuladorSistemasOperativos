@@ -31,7 +31,7 @@ public class CrearInstruccion extends javax.swing.JFrame {
         DefaultListModel listModel1 = new DefaultListModel<String>();
         Iterator<Recurso> it = this.so.getRecursos().iterator();
         while (it.hasNext()) {
-            listModel1.addElement(it.next()); // toString automatico?
+            listModel1.addElement(it.next()); 
         }
         listaRecursos.setModel(listModel1);
     }

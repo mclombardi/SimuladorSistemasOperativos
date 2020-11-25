@@ -39,14 +39,14 @@ public class CrearUsuario extends javax.swing.JFrame {
         DefaultListModel listModel1 = new DefaultListModel<String>();
         Iterator<Proceso> it = this.so.getProcesos().iterator();
         while (it.hasNext()) {
-            listModel1.addElement(it.next()); // toString automatico?
+            listModel1.addElement(it.next());
         }
         lstProgramas.setModel(listModel1);
 
         DefaultListModel listModel2 = new DefaultListModel<String>();
         Iterator<Recurso> it2 = this.so.getRecursos().iterator();
         while (it2.hasNext()) {
-            listModel2.addElement(it2.next()); // toString automatico?
+            listModel2.addElement(it2.next());
         }
         lstRecursos.setModel(listModel2);
 

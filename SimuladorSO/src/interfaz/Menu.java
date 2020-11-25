@@ -133,7 +133,6 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnEjecturaProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecturaProcesosActionPerformed
         CorrerProgramas cp = new CorrerProgramas(this.so);
-        //this.so.addObserver(cp);
         cp.setVisible(true);
         dispose();
         

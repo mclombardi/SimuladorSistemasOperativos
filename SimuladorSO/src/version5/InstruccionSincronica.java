@@ -39,7 +39,7 @@ public class InstruccionSincronica extends Instruccion {
             }
             if (progreso == tiempoEsperado) {
                 this.recurso.liberar();
-                this.tengoElRecurso = false; // false
+                this.tengoElRecurso = false; 
             }
             return iterDisponibles - progresoAux;
         }

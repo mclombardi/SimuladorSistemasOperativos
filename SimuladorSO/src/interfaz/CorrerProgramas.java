@@ -43,7 +43,7 @@ public class CorrerProgramas extends javax.swing.JFrame {
         DefaultListModel listModel1 = new DefaultListModel<String>();
         Iterator<Proceso> it = this.so.getProcesos().iterator();
         while (it.hasNext()) {
-            listModel1.addElement(it.next()); // toString automatico?
+            listModel1.addElement(it.next());
         }
         listaProcesos.setModel(listModel1);
     }

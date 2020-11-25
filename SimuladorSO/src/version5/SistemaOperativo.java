@@ -15,9 +15,9 @@ public class SistemaOperativo implements Serializable {
     private int indiceRecursos;
     private int indiceProcesos;
 
-    private ArrayList<Instruccion> instrucciones;
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Recurso> recursos;
+    private ArrayList<Instruccion> instrucciones; // todos las instrucciones
+    private ArrayList<Usuario> usuarios;  // todos los usuarios
+    private ArrayList<Recurso> recursos;// todos los recursos
     private ArrayList<Proceso> procesos; // todos los procesos
 
     // SE MODIFICAN EN CADA ITER:
@@ -81,6 +81,7 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
+    
     public void crearInstruccionAsincronica(String aImprimir) {
         InstruccionAsincronica ia = new InstruccionAsincronica(aImprimir);
         instrucciones.add(ia);
@@ -107,7 +108,7 @@ public class SistemaOperativo implements Serializable {
                 InstruccionSincronica is = (InstruccionSincronica) ins;
                 recursos.add(is.getRecurso());
             } catch (Exception e) {
-                continue; // rompe todo?
+                continue; 
             }
         }
         return recursos;
@@ -127,7 +128,7 @@ public class SistemaOperativo implements Serializable {
 
     public void crearUsuarioYDarPermisos(String nombre, int[] indRecursos, int[] indProgramas) {
         crearUsuario(nombre);
-        Usuario usuarioAgregado = this.usuarios.get(this.usuarios.size() - 1);// consigue el ultimo usuario
+        Usuario usuarioAgregado = this.usuarios.get(this.usuarios.size() - 1);
 
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
             expandirMatrizDePermisosDeRecursos();
@@ -150,6 +151,7 @@ public class SistemaOperativo implements Serializable {
     }
 
 // -------------------------------------------------------------------------
+    
     private void expandirMatrizDePermisosDeRecursos() {
         // pre:this.recursos.size() > 0 && this.usuarios.size() > 0
 
@@ -179,7 +181,7 @@ public class SistemaOperativo implements Serializable {
         while (it.hasNext()) {
             Proceso aVerificar = it.next();
             if (!permisoAPrograma(usuario, aVerificar)) {
-                this.procesosListos.remove(aVerificar); // o con id?
+                this.procesosListos.remove(aVerificar); 
             }
         }
     }
@@ -188,7 +190,8 @@ public class SistemaOperativo implements Serializable {
         return this.permisosProgramas[usuario.getUid()][proceso.getPid()];
     }
 
-    // -------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------
+    
     public void correrProcesos(ArrayList<Proceso> procesosAEjecutar, Usuario usuario) {
         cargarMemoria(procesosAEjecutar);
 
@@ -203,7 +206,7 @@ public class SistemaOperativo implements Serializable {
 
                 procActual.run(permisosRecursos, usuario);
 
-                this.log += procActual.getLogProc(); // esto  funciona ?
+                this.log += procActual.getLogProc(); 
 
                 switch (procActual.getEstado()) {
                     case "esperando CPU":
@@ -217,7 +220,6 @@ public class SistemaOperativo implements Serializable {
                     case "terminado":
                         this.procesosListos.remove(0);
                         desencolarProcesoDeParticion(procActual.getParticion());
-                        //procActual.setProgreso(0);
                         break;
                     case "no permite":
                         this.log += "PERMISO DENEGADO -- El usuario no tiene acceso a todos los recursos necesarios para ejecutar la siguiente instrucción del programa "
@@ -241,8 +243,8 @@ public class SistemaOperativo implements Serializable {
         System.out.println(this.log += "------------");
         this.log += "------------ \n";
 
-        // va a terminar cuando la memoria esté vacía. Esto implica que todos los procs a ejecutar fueron insertados. 
-        // Por lo tanto, si no hay deadlock, procesosListos y procesosBloqueados tamb van a estar vacias
+        // va a terminar cuando la memoria esté vacía. Esto implica que todos los procesos a ejecutar fueron insertados. 
+        // Por lo tanto, si no hay deadlock, procesosListos y procesosBloqueados también van a estar vacías.
     }
 
     private void desencolarProcesoDeParticion(int particion) {
@@ -284,6 +286,7 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
+    
     private boolean memoriaVacia() {
         boolean vacia = true;
         for (int i = 1; i < this.memoria.length && vacia; i++) {
@@ -308,6 +311,7 @@ public class SistemaOperativo implements Serializable {
     }
 
     // -------------------------------------------------------------------------
+    
     public void modificarPermisosUsuario(int indUsuario, int[] indRecursos, int[] indProgramas) {
 
         if (this.recursos.size() > 0 && this.usuarios.size() > 0) {
